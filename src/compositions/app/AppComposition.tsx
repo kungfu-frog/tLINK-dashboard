@@ -2,6 +2,8 @@ import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 
+import { Container, Header, Timer } from 'components';
+
 
 interface StateFromProps {
 }
@@ -13,7 +15,10 @@ type Props = StateFromProps & DispatchFromProps & OwnProps;
 export const AppComposition = () => {
   return (
     <div>
-      LinkStepper
+      <Header />
+      <Container>
+        <Timer />
+      </Container>
     </div>
   )
 }

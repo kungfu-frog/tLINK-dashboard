@@ -5,6 +5,8 @@ import {
     AppComposition
 } from 'compositions';
 
+import 'assets/scss/index.scss';
+
 class MainScreen extends Component {
     public render() {
         return (
