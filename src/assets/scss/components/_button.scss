@@ -3,6 +3,8 @@
     background-color: $light-blue !important;
     color: $white !important;
     border-radius: 10px !important;
+    font-family: "Nunito",sans-serif !important;
+    text-transform: none !important;
   }
 
   &-primary {
@@ -10,5 +12,7 @@
     color: $light-blue !important;
     border-radius: 10px !important;
     width: 150px;
+    font-family: "Nunito",sans-serif !important;
+    text-transform: none !important;
   }
 }

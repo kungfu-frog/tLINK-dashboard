@@ -20,13 +20,13 @@ export const AppComposition = () => {
       <Container>
         <div className='flex screen-center'>
           <div style={{ flex: 1 }}>
+            <h1 className='center'>Rebase at everyday 3PM UTC</h1>
             <Timer />
             <div className='center'>
               <Button variant='contained' className='btn-primary'>Rebase</Button>
             </div>
           </div>
           <div>
-            <Timer />
           </div>
         </div>
       </Container>
