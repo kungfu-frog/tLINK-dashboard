@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SavageryOrZen/tLINK-dashboard/issues"
   },
-  "homepage": "https://github.com/SavageryOrZen/tLINK-dashboard#readme"
+  "homepage": "https://github.com/SavageryOrZen/tLINK-dashboard#readme",
+  "dependencies": {
+    "typescript": "^4.0.2"
+  }
 }
