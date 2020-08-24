@@ -1,0 +1,17 @@
+.timer {
+  &__section {
+    text-align: center;
+    display: inline-block;
+    padding: 5px 14px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+
+    &:last-child {
+      border-right: none;
+    }
+
+    & b {
+      font-size: 4em;
+      display: block;
+    }
+  }
+}
