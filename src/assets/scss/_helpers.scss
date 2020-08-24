@@ -1,0 +1,14 @@
+.flex {
+  display: flex;
+  flex-direction: row;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.screen-center {
+  height: calc(100vh - 72px);
+  align-items: center;
+}

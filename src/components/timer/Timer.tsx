@@ -10,7 +10,7 @@ const CustomTimer: React.FC<Props> = () => {
       direction='backward'
     >
       {() => (
-        <div>
+        <div className="timer center">
           <div className="timer__section">
             <b><Timer.Days /></b>
             <span>days</span>

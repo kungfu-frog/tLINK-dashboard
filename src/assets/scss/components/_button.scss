@@ -1,7 +1,14 @@
 .btn {
-  &-primary {
+  &-header {
     background-color: $light-blue !important;
     color: $white !important;
     border-radius: 10px !important;
+  }
+
+  &-primary {
+    background-color: $light-gray !important;
+    color: $light-blue !important;
+    border-radius: 10px !important;
+    width: 150px;
   }
 }

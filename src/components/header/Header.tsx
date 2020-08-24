@@ -9,7 +9,7 @@ const Header: React.FC<Props> = () => {
     <Container>
       <div className="nav-header">
         <div>LinkStepper</div>
-        <Button variant='contained' className='btn-primary'>Connect Wallet</Button>
+        <Button variant='contained' className='btn-header'>Connect Wallet</Button>
       </div>
     </Container>
   )
