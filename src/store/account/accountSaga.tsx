@@ -9,14 +9,11 @@ import { setAccount } from './accountActions';
 function* setAccountSaga() {
   try {
     const address = yield web3client.getAccount();
-    console.log('Account: ', address);
     if (address) {
-      console.log('Balance: ', 1);
       const balance: number = yield web3client.getBalance(address);
       yield put(setAccount({ address, balance }));
     }
     else {
-      console.log('Balance: ', 0);
       yield put(setAccount(undefined));
     }
   } catch(err) {
