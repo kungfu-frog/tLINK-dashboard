@@ -29,6 +29,7 @@ const getTimeLeft = () => {
 }
 
 export const HomeComposition = ({ account }: Props) => {
+  const [rebaseEnable, setRebaseEnable] = React.useState<boolean>(false);
   const renderTokenInfo = () => (
     <React.Fragment>
       <Card className='card transparent'>
@@ -51,14 +52,16 @@ export const HomeComposition = ({ account }: Props) => {
       <Container>
         <div className='flex screen-center'>
           <div style={{ flex: 1 }}>
-            <h1 className='center'>Rebase at everyday 3PM UTC</h1>
+            <h1 className='center-h'>Rebase at everyday 3PM UTC</h1>
             <Timer seconds={getTimeLeft() * 1000} />
-            <div className='center'>
-              <Button variant='contained' className='btn-primary' disabled>Rebase</Button>
+            <div className='center-h'>
+              <Button variant='contained' className='btn-primary' disabled={rebaseEnable}>Rebase</Button>
             </div>
           </div>
-          <div className='w-300'>
-            {renderTokenInfo()}
+          <div className='center-h'>
+            <div className='w-300'>
+              {renderTokenInfo()}
+            </div>
           </div>
         </div>
       </Container>

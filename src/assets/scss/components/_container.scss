@@ -5,6 +5,10 @@
   margin-right: auto;
   margin-left: auto;
 
+  @media screen and (min-width: $small) {
+    max-width: 360px;
+  }
+
   @media screen and (min-width: $mobile) {
     max-width: 540px;
   }
