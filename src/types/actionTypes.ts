@@ -15,10 +15,15 @@ enum BasicType {
     SET_NAVIGATION = 'SET_NAVIGATION',
     SET_LOADING = 'SET_LOADING',
 }
+enum AccountType {
+    LOAD_ACCOUNT = 'LOAD_ACCOUNT',
+    SET_ACCOUNT = 'SET_ACCOUNT',
+}
 
 export type IActionType = 
     | BasicType;
 
 export const ActionType = {
     ...BasicType,
+    ...AccountType,
 };
