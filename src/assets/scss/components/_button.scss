@@ -14,5 +14,10 @@
     width: 150px;
     font-family: "Nunito",sans-serif !important;
     text-transform: none !important;
+
+    &.Mui-disabled {
+      background-color: $dark-gray !important;
+      color: $darker-gray !important;
+    }
   }
 }

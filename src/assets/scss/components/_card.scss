@@ -1,0 +1,12 @@
+.card {
+  margin-bottom: 50px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  & b {
+    display: block;
+    font-size: 1.8em;
+  }
+}
