@@ -1,12 +1,14 @@
 import React from 'react';
 import Timer from 'react-compound-timer';
 
-interface Props {}
+interface Props {
+  seconds: number;
+}
 
-const CustomTimer: React.FC<Props> = () => {
+const CustomTimer: React.FC<Props> = ({ seconds }: Props) => {
   return (
     <Timer
-      initialTime={86400000}
+      initialTime={seconds}
       direction='backward'
     >
       {() => (

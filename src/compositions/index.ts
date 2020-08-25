@@ -1,1 +1,1 @@
-export { default as AppComposition } from './app/AppComposition';
+export { default as HomeComposition } from './home/HomeComposition';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import {
-    AppComposition
+    HomeComposition
 } from 'compositions';
 
 import 'assets/scss/index.scss';
@@ -12,7 +12,7 @@ class MainScreen extends Component {
         return (
             <Router>
                 <Switch>
-                    <Route path='/' exact={true} component={AppComposition} />
+                    <Route path='/' exact={true} component={HomeComposition} />
                 </Switch>
             </Router>
         );
