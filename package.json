@@ -30,6 +30,7 @@
     "web3": "^1.2.11"
   },
   "devDependencies": {
+    "@types/config": "0.0.36",
     "@types/material-ui": "^0.21.8",
     "@types/node-sass": "^4.11.1",
     "@types/react": "^16.9.46",
