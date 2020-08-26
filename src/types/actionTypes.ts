@@ -19,11 +19,18 @@ enum AccountType {
     LOAD_ACCOUNT = 'LOAD_ACCOUNT',
     SET_ACCOUNT = 'SET_ACCOUNT',
 }
+enum TokenType {
+    TOKEN_SET_TOTAL_SUPPLY = 'TOKEN_SET_TOTAL_SUPPLY',
+    TOKEN_LOAD_TOTAL_SUPPLY = 'TOKEN_LOAD_TOTAL_SUPPLY',
+}
 
 export type IActionType = 
-    | BasicType;
+    | BasicType
+    | AccountType
+    | TokenType;
 
 export const ActionType = {
     ...BasicType,
     ...AccountType,
+    ...TokenType,
 };
