@@ -13,6 +13,10 @@ const Header: React.FC<Props> = () => {
           <img className="logo-image" src={LogoImage} alt='LinkStepper' />
           <span className="logo-text">LinkStepper</span>
         </div>
+        <div className="flex">
+          <Button className='btn-text' href='/' >Home</Button>
+          <Button className='btn-text' href='/distribute' >Distribute</Button>
+        </div>
         <Button variant='contained' className='btn-header'>Connect Wallet</Button>
       </div>
     </Container>

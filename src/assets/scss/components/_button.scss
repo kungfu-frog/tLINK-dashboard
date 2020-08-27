@@ -20,4 +20,10 @@
       color: $darker-gray !important;
     }
   }
+
+  &-text {
+    color: $light-blue !important;
+    font-family: "Nunito",sans-serif !important;
+    text-transform: none !important;
+  }
 }
