@@ -94,9 +94,14 @@ export const StakingComposition = ({ account }: Props) => {
     <div>
       <Header />
       <Container>
-        <div className='flex screen-center center-h'>
-          {renderStakeAssetCard()}
-          {renderDistributeAssetCard()}
+        <div className='screen-center'>
+          <div className='center-h wp-100'>
+            {renderStakeAssetCard()}
+            {renderDistributeAssetCard()}
+          </div>
+          <div className='center-h mt-20'>
+            <Button variant='contained' className='btn-primary'>Approve</Button>
+          </div>
         </div>
       </Container>
     </div>

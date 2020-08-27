@@ -43,7 +43,7 @@ export const HomeComposition = ({ account, totalSupply }: Props) => {
     <div>
       <Header />
       <Container>
-        <div className='flex screen-center'>
+        <div className='flex-h screen-center'>
           <div style={{ flex: 1 }}>
             <h1 className='center-h'>Rebase at everyday 3PM UTC</h1>
             <Timer

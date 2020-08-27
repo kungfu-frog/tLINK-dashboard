@@ -1,7 +1,13 @@
-.flex {
+.flex-v {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-h {
   display: flex;
   flex-direction: row;
 }
+
 
 .center-h {
   display: flex;
@@ -16,6 +22,7 @@
 .screen-center {
   height: calc(100vh - 72px);
   align-items: center;
+  justify-content: center;
 }
 
 .transparent {
@@ -36,6 +43,14 @@
 
 .w-300 {
   width: 300px;
+}
+
+.wp-50 {
+  width: 50%;
+}
+
+.wp-100 {
+  width: 100%;
 }
 
 .mb-5 {
