@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Card, CardContent, Typography, Divider } from '@material-ui/core';
+import { Button, Card, CardContent, TextField, Divider } from '@material-ui/core';
 import Config from 'config';
 
 import { Container, Header, Timer } from 'components';
@@ -67,7 +67,7 @@ export const StakingComposition = ({ account }: Props) => {
             <h2>LinkStepper (TLINK)</h2>
           </div>
           <div className='center-h'>
-            Total Staked :&nbsp;
+            Total Locked :&nbsp;
             <span>3500</span>
           </div>
         </div>
@@ -75,15 +75,8 @@ export const StakingComposition = ({ account }: Props) => {
         <div className='section'>
           <div className='mt-20' />
           <div className='center-h'>
-            Staked :&nbsp;
+            Total Unlocked :&nbsp;
             <span>100</span>
-          </div>
-        </div>
-        <Divider />
-        <div className='section'>
-          <div className='mt-20' />
-          <div className='center-h'>
-            <Button variant='contained' className='btn-primary'>Approve</Button>
           </div>
         </div>
       </CardContent>
@@ -94,13 +87,17 @@ export const StakingComposition = ({ account }: Props) => {
     <div>
       <Header />
       <Container>
-        <div className='screen-center'>
-          <div className='center-h wp-100'>
+        <div className='flex-v screen-center'>
+          <div className='center-h'>
+            <TextField className='staking-input' variant='outlined' />
+            <Button variant='contained' className='btn-primary'>{`Stake ${Config.StakingToken.symbol}`}</Button>
+          </div>
+          <div className='center-h wp-100 mt-30'>
             {renderStakeAssetCard()}
             {renderDistributeAssetCard()}
           </div>
-          <div className='center-h mt-20'>
-            <Button variant='contained' className='btn-primary'>Approve</Button>
+          <div className='center-h mt-30'>
+            <Button variant='contained' className='btn-header'>Unstake</Button>
           </div>
         </div>
       </Container>

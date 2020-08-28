@@ -1,0 +1,9 @@
+.staking {
+  &-input {
+    margin-right: 10px !important;
+
+    & .MuiInputBase-root {
+      height: 36px;
+    }
+  }
+}

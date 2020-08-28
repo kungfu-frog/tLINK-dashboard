@@ -23,14 +23,19 @@ enum TokenType {
     TOKEN_SET_TOTAL_SUPPLY = 'TOKEN_SET_TOTAL_SUPPLY',
     TOKEN_LOAD_TOTAL_SUPPLY = 'TOKEN_LOAD_TOTAL_SUPPLY',
 }
+enum StakeType {
+    STAKE_SET_ALLOWANCE = 'STAKE_SET_ALLOWANCE',
+}
 
 export type IActionType = 
     | BasicType
     | AccountType
-    | TokenType;
+    | TokenType
+    | StakeType;
 
 export const ActionType = {
     ...BasicType,
     ...AccountType,
     ...TokenType,
+    ...StakeType,
 };
