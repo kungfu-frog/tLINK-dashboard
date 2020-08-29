@@ -1,6 +1,8 @@
 export default {
   Token: {
     address: '0xDf6747c6cBdb3029D393fA4C57fF86374335f088',
+    name: 'LinkStepper',
+    symbol: 'TLINK',
     decimals: 9,
     rebase: {
       offset: 15,
@@ -16,7 +18,12 @@ export default {
     address: '',
     name: 'Chainlink',
     symbol: 'LINK',
+    decimals: 9,
     abi: []
+  },
+  Pool: {
+    address: '',
+    abi: [],
   },
   Utils: {
     decimals: 3,

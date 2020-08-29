@@ -10,3 +10,23 @@ export const selectStakingTokenAllowance = createSelector(
     [ selectStakeState ],
     (state) => state.allowance,
 );
+
+export const selectTotalStaked = createSelector(
+  [ selectStakeState ],
+  (state) => state.totalStaked,
+);
+
+export const selectStaked = createSelector(
+  [ selectStakeState ],
+  (state) => state.staked,
+);
+
+export const selectTotalLocked = createSelector(
+  [ selectStakeState ],
+  (state) => state.totalLocked,
+);
+
+export const selectTotalUnlocked = createSelector(
+  [ selectStakeState ],
+  (state) => state.totalUnlocked,
+);

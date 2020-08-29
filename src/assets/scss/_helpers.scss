@@ -20,7 +20,7 @@
 }
 
 .screen-center {
-  height: calc(100vh - 72px);
+  min-height: calc(100vh - 72px);
   align-items: center;
   justify-content: center;
 }

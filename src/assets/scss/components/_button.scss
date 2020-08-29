@@ -16,8 +16,8 @@
     text-transform: none !important;
 
     &.Mui-disabled {
-      background-color: $dark-gray !important;
-      color: $darker-gray !important;
+      background-color: rgba(0, 0, 0, 0.12) !important;
+      color: rgba(0, 0, 0, 0.26) !important;
     }
   }
 
