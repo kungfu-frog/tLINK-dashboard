@@ -5,6 +5,7 @@ import { Button, Card, CardContent, Divider } from '@material-ui/core';
 import { RootState } from 'types';
 import Config from 'config';
 import { selectTotalStaked, selectStaked, selectStakingTokenAllowance } from 'store/stake/stakeSelector';
+import { approveStakingToken } from 'store/stake/stakeActions';
 import { numberWithDecimals } from 'utils';
 import StakeTokenImage from 'assets/img/token-stake.png';
 
@@ -13,12 +14,14 @@ interface StateFromProps {
   staked: ReturnType<typeof selectStaked>;
   allowance: ReturnType<typeof selectStakingTokenAllowance>;
 }
-interface DispatchFromProps {}
+interface DispatchFromProps {
+  approve: typeof approveStakingToken;
+}
 interface OwnProps {}
 
 type Props = StateFromProps & DispatchFromProps & OwnProps;
 
-export const StakingAssetCard = ({ totalStaked, staked, allowance }: Props) => {
+export const StakingAssetCard = ({ totalStaked, staked, allowance, approve }: Props) => {
   return (
     <Card className='card card-h transparent'>
       <CardContent>
@@ -48,7 +51,13 @@ export const StakingAssetCard = ({ totalStaked, staked, allowance }: Props) => {
             <div className='section'>
               <div className='mt-20' />
               <div className='center-h'>
-                <Button variant='contained' className='btn-primary'>{`Approve ${Config.StakingToken.symbol}`}</Button>
+                <Button
+                  variant='contained'
+                  className='btn-primary'
+                  onClick={() => approve()}
+                >
+                  {`Approve ${Config.StakingToken.symbol}`}
+                </Button>
               </div>
             </div>
           </React.Fragment>
@@ -68,7 +77,9 @@ function mapStateToProps(
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
-  return {}
+  return {
+    approve: () => dispatch(approveStakingToken())
+  }
 }
 
 export default connect(
