@@ -1,27 +1,19 @@
 import React from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Button, Card, CardContent } from '@material-ui/core';
-import { RootState } from 'types';
 import Config from 'config';
-import { selectTotalStaked, selectStaked, selectStakingTokenAllowance } from 'store/stake/stakeSelector';
-import { approveStakingToken } from 'store/stake/stakeActions';
 import { numberWithDecimals } from 'utils';
 import StakeTokenImage from 'assets/img/token-stake.png';
 
-interface StateFromProps {
-  totalStaked: ReturnType<typeof selectTotalStaked>;
-  staked: ReturnType<typeof selectStaked>;
-  allowance: ReturnType<typeof selectStakingTokenAllowance>;
+interface OwnProps {
+  allowed: boolean;
+  staked: number;
+  totalStaked: number;
+  onApprove: () => void;
 }
-interface DispatchFromProps {
-  approve: typeof approveStakingToken;
-}
-interface OwnProps {}
 
-type Props = StateFromProps & DispatchFromProps & OwnProps;
+type Props = OwnProps;
 
-export const StakingAsset = ({ totalStaked, staked, allowance, approve }: Props) => {
+export const StakingAsset = ({ totalStaked, staked, allowed, onApprove }: Props) => {
   return (
     <Card className='card card-h transparent'>
       <CardContent>
@@ -41,7 +33,7 @@ export const StakingAsset = ({ totalStaked, staked, allowance, approve }: Props)
             <span className='text-small'>{`${Config.StakingToken.symbol} Staked`}</span>
           </div>
         </div>
-        {allowance <= 0 ? (
+        {allowed ? (
           <React.Fragment>
             <div className='section'>
               <div className='mt-20' />
@@ -49,7 +41,7 @@ export const StakingAsset = ({ totalStaked, staked, allowance, approve }: Props)
                 <Button
                   variant='contained'
                   className='btn-primary'
-                  onClick={() => approve()}
+                  onClick={onApprove}
                 >
                   {`Approve ${Config.StakingToken.symbol}`}
                 </Button>
@@ -62,23 +54,5 @@ export const StakingAsset = ({ totalStaked, staked, allowance, approve }: Props)
   )
 }
 
-function mapStateToProps(
-  state: RootState,
-): StateFromProps {
-  return {
-    totalStaked: selectTotalStaked(state),
-    staked: selectStaked(state),
-    allowance: selectStakingTokenAllowance(state),
-  };
-}
-function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
-  return {
-    approve: () => dispatch(approveStakingToken())
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(StakingAsset);
+export default StakingAsset;
 

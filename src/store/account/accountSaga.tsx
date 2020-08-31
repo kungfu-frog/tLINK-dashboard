@@ -10,7 +10,7 @@ function* setAccountSaga() {
   try {
     const address = yield web3client.getAccount();
     if (address) {
-      const balance: number = yield web3client.getBalance(address);
+      const balance: number = yield web3client.getBalance(web3client.tokenContract, address);
       yield put(setAccount({ address, balance }));
     }
     else {

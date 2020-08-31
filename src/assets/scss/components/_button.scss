@@ -11,12 +11,12 @@
     background-color: $light-gray !important;
     color: $light-blue !important;
     border-radius: 10px !important;
-    width: 150px;
+    width: 200px;
+    height: 50px;
     font-family: "Nunito",sans-serif !important;
     text-transform: none !important;
 
     &.Mui-disabled {
-      background-color: rgba(0, 0, 0, 0.12) !important;
       color: rgba(0, 0, 0, 0.26) !important;
     }
   }

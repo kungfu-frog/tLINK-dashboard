@@ -13,6 +13,9 @@ const orchestratorContract: any = getContract(Config.Orchestrator.abi, Config.Or
 const stakingTokenContract: any = getContract(Config.StakingToken.abi, Config.StakingToken.address);
 const poolContract: any = getContract(Config.Pool.abi, Config.Pool.address);
 
+/**
+ * Common Contract Functions
+ */
 function getContract(abi: any, address: string) {
   return new web3.eth.Contract(abi, address);
 }
@@ -23,9 +26,9 @@ async function getAccount(): Promise<string | undefined> {
   return accounts ? accounts[0] : undefined;
 }
 
-async function getBalance(address?: string): Promise<number> {
+async function getBalance(contract: any, address?: string): Promise<number> {
   const _address = address || getAccount();
-  const result = await tokenContract.methods.balanceOf(_address).call();
+  const result = await contract.methods.balanceOf(_address).call();
   return parseInt(result);
 }
 
@@ -104,6 +107,42 @@ async function unstake(amount: number, from: string) {
     });
 }
 
+/**
+ * StakingRewards Pool Contract Functions
+ */
+async function poolStake(amount: number, from: string) {
+  await poolContract.methods.stake(amount).send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
+async function poolWithdraw(amount: number, from: string) {
+  await poolContract.methods.withdraw(amount).send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
+async function poolHarvest(from: string) {
+  await poolContract.methods.getReward().send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
+async function poolExit(from: string) {
+  await poolContract.methods.exit().send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
+async function poolGetEarned(address: string): Promise<number> {
+  const result = await poolContract.methods.earned(address).call();
+  return result;
+}
+
 export default {
   getContract,
   getAccount,
@@ -118,8 +157,16 @@ export default {
   totalUnlocked,
   stake,
   unstake,
+  // Yield farming pool
+  poolStake,
+  poolWithdraw,
+  poolHarvest,
+  poolExit,
+  poolGetEarned,
+  // Utils
   promisify,
   transferToken,
+  // Contracts
   tokenContract,
   orchestratorContract,
   stakingTokenContract,

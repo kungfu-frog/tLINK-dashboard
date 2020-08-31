@@ -1,42 +1,33 @@
 import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import Config from 'config';
 
 import { Container, Header } from 'components';
 import { RootState } from 'types';
 import { selectAccount } from 'store/account/accountSelector';
-import { selectTotalStaked, selectStaked, selectStakingTokenAllowance } from 'store/stake/stakeSelector';
 
 import StakingAssetCard from './StakingAsset';
 import DistributionAssetCard from './DistributionAsset';
-import { loadAllowance, loadStaked, loadLocked, stakeToken, unstakeToken } from 'store/stake/stakeActions';
+import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed } from 'store/pool/poolSelector';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
-  totalStaked: ReturnType<typeof selectTotalStaked>;
-  staked: ReturnType<typeof selectStaked>;
-  allowance: ReturnType<typeof selectStakingTokenAllowance>;
+  staked: ReturnType<typeof selectPoolStaked>;
+  earned: ReturnType<typeof selectPoolEarned>;
+  allowed: ReturnType<typeof selectPoolStakeAllowed>;
 }
 interface DispatchFromProps {
-  loadAllowance: typeof loadAllowance,
-  loadStaked: typeof loadStaked,
-  loadLocked: typeof loadLocked,
-  stakeToken: typeof stakeToken,
-  unstakeToken: typeof unstakeToken,
 }
 interface OwnProps {}
 
 type Props = StateFromProps & DispatchFromProps & OwnProps;
 
-export const PoolComposition = ({ loadAllowance, loadStaked, loadLocked, staked, allowance, stakeToken, unstakeToken }: Props) => {
+export const PoolComposition = ({ allowed, staked, earned }: Props) => {
   const [stakeAmount, setStakeAmount] = React.useState<string>('');
 
   useEffect(() => {
-    loadAllowance();
-    loadStaked();
-    loadLocked();
   });
 
   const handleStakeAmountInput = (event: any) => {
@@ -44,11 +35,11 @@ export const PoolComposition = ({ loadAllowance, loadStaked, loadLocked, staked,
   };
 
   const handleStake = () => {
-    stakeToken(parseFloat(stakeAmount));
+    //stakeToken(parseFloat(stakeAmount));
   }
 
   const handleUnstake = () => {
-    unstakeToken(staked);
+    //unstakeToken(staked);
   }
 
   return (
@@ -63,7 +54,12 @@ export const PoolComposition = ({ loadAllowance, loadStaked, loadLocked, staked,
           </div>
           <div className='center-h wp-100 mt-30'>
             <DistributionAssetCard />
-            <StakingAssetCard />
+            <StakingAssetCard
+              allowed={allowed}
+              staked={staked}
+              totalStaked={0}
+              onApprove={() => {}}
+            />
           </div>
           <div className='center-h mt-30'>
             <Button
@@ -72,7 +68,7 @@ export const PoolComposition = ({ loadAllowance, loadStaked, loadLocked, staked,
               disabled={staked <= 0}
               onClick={handleUnstake}
             >
-              Unstake
+              Harvest & Withdraw
             </Button>
           </div>
         </div>
@@ -86,18 +82,14 @@ function mapStateToProps(
 ): StateFromProps {
   return {
     account: selectAccount(state),
-    totalStaked: selectTotalStaked(state),
-    staked: selectStaked(state),
-    allowance: selectStakingTokenAllowance(state),
+    //totalStaked: selectTotalStaked(state),
+    staked: selectPoolStaked(state),
+    allowed: selectPoolStakeAllowed(state),
+    earned: selectPoolEarned(state),
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
   return {
-    loadAllowance: () => dispatch(loadAllowance()),
-    loadStaked: () => dispatch(loadStaked()),
-    loadLocked: () => dispatch(loadLocked()),
-    stakeToken: (payload: number) => dispatch(stakeToken(payload)),
-    unstakeToken: (payload: number) => dispatch(unstakeToken(payload)),
   }
 }
 

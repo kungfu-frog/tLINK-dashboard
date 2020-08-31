@@ -36,16 +36,30 @@ enum GeyserType {
     GEYSER_GEYSER_TOKEN = 'GEYSER_GEYSER_TOKEN',
     GEYSER_UNGEYSER_TOKEN = 'GEYSER_UNGEYSER_TOKEN',
 }
+enum PoolType {
+    POOL_APPROVE_TOKEN = 'POOL_APPROVE_TOKEN',
+    POOL_APPROVE_TOKEN_SUCCESS = 'POOL_APPROVE_TOKEN_SUCCESS',
+    POOL_STAKE = 'POOL_STAKE',
+    POOL_WITHDRAW = 'POOL_WITHDRAW',
+    POOL_HARVEST = 'POOL_HARVEST',
+    POOL_EXIT = 'POOL_EXIT',
+    POOL_GET_EARNED = 'POOL_GET_EARNED',
+    POOL_GET_EARNED_SUCCESS = 'POOL_GET_EARNED_SUCCESS',
+    POOL_GET_STAKED = 'POOL_GET_STAKED',
+    POOL_GET_STAKED_SUCCESS = 'POOL_GET_STAKED_SUCCESS',
+}
 
 export type IActionType = 
     | BasicType
     | AccountType
     | TokenType
-    | GeyserType;
+    | GeyserType
+    | PoolType;
 
 export const ActionType = {
     ...BasicType,
     ...AccountType,
     ...TokenType,
     ...GeyserType,
+    ...PoolType,
 };
