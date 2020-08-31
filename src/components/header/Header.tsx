@@ -15,7 +15,7 @@ const Header: React.FC<Props> = () => {
         </div>
         <div className="flex-h">
           <Button className='btn-text' href='/' >Home</Button>
-          <Button className='btn-text' href='/distribute' >Distribute</Button>
+          <Button className='btn-text' href='/pool' >Distribute</Button>
         </div>
         <Button variant='contained' className='btn-header'>Connect Wallet</Button>
       </div>

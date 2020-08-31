@@ -1,0 +1,16 @@
+.text {
+  &-title {
+    font-size: 1.2rem;
+    color: $light-blue;
+  }
+
+  &-number {
+    display: block;
+    font-size: 1.8em;
+    font-weight: bold;
+  }
+
+  &-small {
+    color: $light-blue;
+  }
+}

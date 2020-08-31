@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {
     HomeComposition,
     GeyserComposition,
+    PoolComposition,
 } from 'compositions';
 
 import 'assets/scss/index.scss';
@@ -15,6 +16,7 @@ class MainScreen extends Component {
                 <Switch>
                     <Route path='/' exact={true} component={HomeComposition} />
                     <Route path='/geyser' exact={true} component={GeyserComposition} />
+                    <Route path='/pool' exact={true} component={PoolComposition} />
                 </Switch>
             </Router>
         );
