@@ -1,12 +1,13 @@
 import { put, takeLatest, fork, select, call } from 'redux-saga/effects';
 import {
-  ActionType,
+  ActionType, Action,
 } from 'types';
 
 import { web3client } from 'lib';
 import Config from 'config';
-import { setStakeTokenAllowance, setTotalStaked, setStaked, setTotalLocked, setTotalUnlocked } from './stakeActions';
+import { setStakeTokenAllowance, setTotalStaked, setStaked, setTotalLocked, setTotalUnlocked, loadStaked, loadLocked } from './stakeActions';
 import { selectAccount } from 'store/account/accountSelector';
+import { selectStaked } from './stakeSelector';
 
 function* setAllowanceSaga() {
   try {
@@ -61,19 +62,51 @@ function* setTotalUnlockedSaga() {
 
 function* approve() {
   try {
-    yield web3client.approve(web3client.stakingTokenContract, Config.Pool.address);
+    const state = yield select();
+    const account = selectAccount(state);
+    if (!account) return;
+    yield web3client.approve(web3client.stakingTokenContract, Config.Pool.address, account.address);
     yield call(setAllowanceSaga);
   } catch(err) {
   }
 }
 
+function* stake({ payload }: Action<number>) {
+  try {
+    const state = yield select();
+    const account = selectAccount(state);
+    if (!account) return;
+    yield web3client.stake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
+    yield put(loadStaked());
+    yield put(loadLocked());
+  } catch(err) {
+    console.error(err);
+  }
+}
+
+function* unstake({ payload }: Action<number>) {
+  try {
+    const state = yield select();
+    const account = selectAccount(state);
+    if (!account) return;
+    const staked = selectStaked(state);
+    yield web3client.unstake(staked, account.address);
+    yield put(loadStaked());
+    yield put(loadLocked());
+  } catch(err) {
+    console.error(err);
+  }
+}
+
 function* stakeSagaWatcher() {
-  yield takeLatest(ActionType.INIT_STORE as any, setAllowanceSaga);
-  yield takeLatest(ActionType.INIT_STORE as any, setStakedSaga);
-  yield takeLatest(ActionType.INIT_STORE as any, setTotalStakedSaga);
-  yield takeLatest(ActionType.INIT_STORE as any, setTotalLockedSaga);
-  yield takeLatest(ActionType.INIT_STORE as any, setTotalUnlockedSaga);
-  yield takeLatest(ActionType.STAKE_APPROVE_TOKEN as any, approve);
+  yield takeLatest(ActionType.GEYSER_LOAD_ALLOWANCE as any, setAllowanceSaga);
+  yield takeLatest(ActionType.GEYSER_LOAD_STAKED as any, setStakedSaga);
+  yield takeLatest(ActionType.GEYSER_LOAD_STAKED as any, setTotalStakedSaga);
+  yield takeLatest(ActionType.GEYSER_LOAD_LOCKED as any, setTotalLockedSaga);
+  yield takeLatest(ActionType.GEYSER_LOAD_LOCKED as any, setTotalUnlockedSaga);
+  yield takeLatest(ActionType.GEYSER_APPROVE_TOKEN as any, approve);
+  yield takeLatest(ActionType.GEYSER_GEYSER_TOKEN as any, stake);
+  yield takeLatest(ActionType.GEYSER_UNGEYSER_TOKEN as any, unstake);
 }
 
 export default [

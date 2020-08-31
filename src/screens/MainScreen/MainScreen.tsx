@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import {
     HomeComposition,
-    StakingComposition,
+    GeyserComposition,
 } from 'compositions';
 
 import 'assets/scss/index.scss';
@@ -14,7 +14,7 @@ class MainScreen extends Component {
             <Router>
                 <Switch>
                     <Route path='/' exact={true} component={HomeComposition} />
-                    <Route path='/distribute' exact={true} component={StakingComposition} />
+                    <Route path='/geyser' exact={true} component={GeyserComposition} />
                 </Switch>
             </Router>
         );

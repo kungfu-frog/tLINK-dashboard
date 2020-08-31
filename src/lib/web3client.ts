@@ -25,7 +25,6 @@ async function getAccount(): Promise<string | undefined> {
 
 async function getBalance(address?: string): Promise<number> {
   const _address = address || getAccount();
-  //const result = await promisify((f) => tokenContract.balanceOf(_address, f));
   const result = await tokenContract.methods.balanceOf(_address).call();
   return parseInt(result);
 }
@@ -58,8 +57,12 @@ async function transferToken(amount: number, to: string): Promise<void> {
   await promisify((f) => tokenContract.transfer(amount, to, f));
 }
 
-async function approve(contract: any, address: string) {
-  await contract.methods.approve(address, '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+async function approve(contract: any, address: string, from: string) {
+  const max = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+  await contract.methods.approve(address, max).send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
 }
 
 async function allowance(contract: any, owner: string, spender: string) {
@@ -87,6 +90,20 @@ async function totalUnlocked() {
   return result;
 }
 
+async function stake(amount: number, from: string) {
+  await poolContract.methods.stake(amount, '0x40').send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
+async function unstake(amount: number, from: string) {
+  await poolContract.methods.unstake(amount, '0x40').send({ from })
+    .on('error', function(error: any, receipt: any) {
+      console.log(error, receipt);
+    });
+}
+
 export default {
   getContract,
   getAccount,
@@ -99,6 +116,8 @@ export default {
   totalStakedFor,
   totalLocked,
   totalUnlocked,
+  stake,
+  unstake,
   promisify,
   transferToken,
   tokenContract,

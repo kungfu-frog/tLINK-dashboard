@@ -69,9 +69,9 @@ const setTotalUnlockedReducer = (
 }
 
 export const stakeReducer = createReducer<StakeReducerType>(defaultState, {
-  [ActionType.STAKE_SET_ALLOWANCE]: setStakeTokenAllownaceReducer,
-  [ActionType.STAKE_SET_TOTAL_STAKED]: setTotalStakedReducer,
-  [ActionType.STAKE_SET_STAKED]: setStakedReducer,
-  [ActionType.STAKE_SET_TOTAL_LOCKED]: setTotalLockedReducer,
-  [ActionType.STAKE_SET_TOTAL_UNLOCKED]: setTotalUnlockedReducer,
+  [ActionType.GEYSER_SET_ALLOWANCE]: setStakeTokenAllownaceReducer,
+  [ActionType.GEYSER_SET_TOTAL_STAKED]: setTotalStakedReducer,
+  [ActionType.GEYSER_SET_STAKED]: setStakedReducer,
+  [ActionType.GEYSER_SET_TOTAL_LOCKED]: setTotalLockedReducer,
+  [ActionType.GEYSER_SET_TOTAL_UNLOCKED]: setTotalUnlockedReducer,
 });
