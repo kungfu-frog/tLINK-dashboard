@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardContent } from '@material-ui/core';
+import { Button, Card, CardContent, Dialog, DialogTitle, TextField, DialogContent, DialogActions } from '@material-ui/core';
 import Config from 'config';
 import { numberWithDecimals } from 'utils';
 import StakeTokenImage from 'assets/img/token-stake.png';
@@ -9,11 +9,18 @@ interface OwnProps {
   staked: number;
   totalStaked: number;
   onApprove: () => void;
+  onStake: (amount: number) => void;
+  onUnstake: (amount: number) => void;
 }
 
 type Props = OwnProps;
 
-export const StakingAsset = ({ totalStaked, staked, allowed, onApprove }: Props) => {
+export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake, onUnstake }: Props) => {
+  const [stakeDialogOpen, setStakeDialogOpen] = React.useState<boolean>(false);
+  const [unstakeDialogOpen, setUnstakeDialogOpen] = React.useState<boolean>(false);
+  const [stakeAmount, setStakeAmount] = React.useState<string>('');
+  const [unstakeAmount, setUnstakeAmount] = React.useState<string>('');
+
   return (
     <Card className='card card-h transparent'>
       <CardContent>
@@ -48,8 +55,80 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove }: Props)
               </div>
             </div>
           </React.Fragment>
-        ) : null}
+        ) : (
+          <div className='section'>
+            <div className='center-h'>
+              <Button
+                variant='contained'
+                className='btn-primary small'
+                onClick={() => setStakeDialogOpen(true)}
+              >
+                Stake
+              </Button>
+            </div>
+            <div className='center-h mt-10'>
+              <Button
+                variant='contained'
+                className='btn-primary small'
+                disabled={staked <= 0}
+                onClick={() => setUnstakeDialogOpen(true)}
+              >
+                Unstake
+              </Button>
+            </div>
+          </div>
+        )}
       </CardContent>
+      <Dialog onClose={() => setStakeDialogOpen(false)} open={stakeDialogOpen}>
+        <DialogTitle>{`Enter amount to stake`}</DialogTitle>
+        <DialogContent>
+          <TextField
+            className='staking-input'
+            variant='outlined'
+            onChange={(event) => setStakeAmount(event.target.value)}
+            value={stakeAmount}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className='btn-text'
+            onClick={() => onStake(parseFloat(stakeAmount))}
+          >
+            Stake
+          </Button>
+          <Button
+            className='btn-text'
+            onClick={() => { setStakeDialogOpen(false); setStakeAmount('') }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog onClose={() => setUnstakeDialogOpen(false)} open={unstakeDialogOpen}>
+        <DialogTitle>{`Enter amount to unstake`}</DialogTitle>
+        <DialogContent>
+          <TextField
+            className='staking-input'
+            variant='outlined'
+            onChange={(event) => setUnstakeAmount(event.target.value)}
+            value={unstakeAmount}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            className='btn-text'
+            onClick={() => onStake(parseFloat(unstakeAmount))}
+          >
+            Unstake
+          </Button>
+          <Button
+            className='btn-text'
+            onClick={() => { setUnstakeDialogOpen(false); setUnstakeAmount('') }}
+          >
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   )
 }

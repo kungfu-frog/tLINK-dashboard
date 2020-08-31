@@ -1,23 +1,17 @@
 import React from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { Card, CardContent, Button } from '@material-ui/core';
-import { RootState } from 'types';
 import Config from 'config';
-import { selectTotalLocked, selectTotalUnlocked } from 'store/stake/stakeSelector';
 import { numberWithDecimals } from 'utils';
 import DistributeTokenImage from 'assets/img/token-distribute.png';
 
-interface StateFromProps {
-  totalLocked: ReturnType<typeof selectTotalLocked>;
-  totalUnlocked: ReturnType<typeof selectTotalUnlocked>;
+interface OwnProps {
+  earned: number;
+  onHarvest: () => void;
 }
-interface DispatchFromProps {}
-interface OwnProps {}
 
-type Props = StateFromProps & DispatchFromProps & OwnProps;
+type Props = OwnProps;
 
-export const DistributionAsset = ({ totalLocked, totalUnlocked }: Props) => {
+export const DistributionAsset = ({ earned, onHarvest }: Props) => {
   return (
     <Card className='card card-h transparent'>
       <CardContent>
@@ -30,7 +24,7 @@ export const DistributionAsset = ({ totalLocked, totalUnlocked }: Props) => {
           </div>
           <div className='center-h'>
             <span className='text-number'>
-              {numberWithDecimals(totalLocked, Config.Token.decimals, Config.Utils.decimals)}
+              {numberWithDecimals(earned, Config.Token.decimals, Config.Utils.decimals)}
             </span>
           </div>
           <div className='center-h mb-20'>
@@ -43,8 +37,8 @@ export const DistributionAsset = ({ totalLocked, totalUnlocked }: Props) => {
             <Button
               variant='contained'
               className='btn-primary'
-              onClick={() => {}}
-              disabled
+              onClick={onHarvest}
+              disabled={earned <= 0}
             >
               Harvest
             </Button>
@@ -55,20 +49,5 @@ export const DistributionAsset = ({ totalLocked, totalUnlocked }: Props) => {
   )
 }
 
-function mapStateToProps(
-  state: RootState,
-): StateFromProps {
-  return {
-    totalLocked: selectTotalLocked(state),
-    totalUnlocked: selectTotalUnlocked(state),
-  };
-}
-function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
-  return {}
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(DistributionAsset);
+export default DistributionAsset;
 
