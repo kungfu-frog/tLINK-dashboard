@@ -8,7 +8,7 @@ import { setTotalSupply } from './tokenActions';
 
 function* setTotalSupplySaga() {
   try {
-    const totalSupply = yield web3client.getTotalSupply();
+    const totalSupply = yield web3client.getTotalSupply(web3client.tokenContract);
     yield put(setTotalSupply(totalSupply));
   } catch(err) {
     yield put(setTotalSupply(0));

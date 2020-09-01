@@ -10,14 +10,16 @@ import { selectAccount } from 'store/account/accountSelector';
 
 import StakingAssetCard from './StakingAsset';
 import DistributionAssetCard from './DistributionAsset';
-import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed } from 'store/pool/poolSelector';
-import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit, poolLoadAllowance, poolGetEarned, poolGetStaked } from 'store/pool/poolActions';
+import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed, selectStakeTokenBalance, selectPoolTotalStaked } from 'store/pool/poolSelector';
+import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit, poolGetEarned, poolGetStaked } from 'store/pool/poolActions';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
   staked: ReturnType<typeof selectPoolStaked>;
   earned: ReturnType<typeof selectPoolEarned>;
   allowed: ReturnType<typeof selectPoolStakeAllowed>;
+  totalStaked: ReturnType<typeof selectPoolTotalStaked>
+  stakeTokenBalance: ReturnType<typeof selectStakeTokenBalance>;
 }
 interface DispatchFromProps {
   stake: typeof poolStake;
@@ -25,7 +27,6 @@ interface DispatchFromProps {
   approve: typeof poolApproveToken;
   harvest: typeof poolHarvest;
   exit: typeof poolExit;
-  loadAllowance: typeof poolLoadAllowance;
   loadStaked: typeof poolGetStaked;
   loadEarned: typeof poolGetEarned;
 }
@@ -36,13 +37,14 @@ type Props = StateFromProps & DispatchFromProps & OwnProps;
 const PoolComposition = ({
   allowed,
   staked,
+  totalStaked,
+  stakeTokenBalance,
   approve,
   stake,
   unstake,
   earned,
   harvest,
   exit,
-  loadAllowance,
   loadEarned,
   loadStaked,
 }: Props) => {
@@ -75,7 +77,8 @@ const PoolComposition = ({
             <StakingAssetCard
               allowed={allowed}
               staked={staked}
-              totalStaked={0}
+              totalStaked={totalStaked}
+              balance={stakeTokenBalance}
               onApprove={approve}
               onStake={(amount: number) => stake(amount)}
               onUnstake={unstake}
@@ -102,10 +105,11 @@ function mapStateToProps(
 ): StateFromProps {
   return {
     account: selectAccount(state),
-    //totalStaked: selectTotalStaked(state),
+    totalStaked: selectPoolTotalStaked(state),
     staked: selectPoolStaked(state),
     allowed: selectPoolStakeAllowed(state),
     earned: selectPoolEarned(state),
+    stakeTokenBalance: selectStakeTokenBalance(state),
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
@@ -115,7 +119,6 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
     approve: () => dispatch(poolApproveToken()),
     harvest: () => dispatch(poolHarvest()),
     exit: () => dispatch(poolExit()),
-    loadAllowance: () => dispatch(poolLoadAllowance()),
     loadEarned: () => dispatch(poolGetEarned()),
     loadStaked: () => dispatch(poolGetStaked()),
   }

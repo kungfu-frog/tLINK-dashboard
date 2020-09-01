@@ -20,3 +20,13 @@ export const selectPoolEarned = createSelector(
   [ selectPoolState ],
   (state) => state.earned,
 );
+
+export const selectStakeTokenBalance = createSelector(
+  [ selectPoolState ],
+  (state) => state.stakeTokenBalance,
+);
+
+export const selectPoolTotalStaked = createSelector(
+  [ selectPoolState ],
+  (state) => state.totalStaked,
+);

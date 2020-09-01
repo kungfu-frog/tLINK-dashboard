@@ -4,7 +4,7 @@ import { ActionType, Action } from 'types';
 import { web3client } from 'lib';
 import Config from 'config';
 import { selectAccount } from 'store/account/accountSelector';
-import { poolApproveTokenSuccess, poolGetEarnedSuccess, poolGetStaked, poolGetEarned, poolGetStakedSuccess } from './poolActions';
+import { poolApproveTokenSuccess, poolGetEarnedSuccess, poolGetStaked, poolGetEarned, poolGetStakedSuccess, poolGetStakeTokenBalanceSuccess, poolGetStakeTokenBalance, poolGetTotalStakedSuccess } from './poolActions';
 
 function* loadAllowance() {
   try {
@@ -36,9 +36,9 @@ function* stake({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolStake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
-    yield put(poolGetStaked());
-    yield put(poolGetEarned());
+    console.log((payload * Math.pow(10, Config.StakingToken.decimals)).toString());
+    //yield web3client.poolStake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
+    //yield put(poolGetStaked());
   } catch(err) {
     console.error(err);
   }
@@ -51,7 +51,6 @@ function* withdraw({ payload }: Action<number>) {
     if (!account) return;
     yield web3client.poolWithdraw(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
     yield put(poolGetStaked());
-    yield put(poolGetEarned());
   } catch(err) {
     
   }
@@ -63,7 +62,6 @@ function* harvest() {
     const account = selectAccount(state);
     if (!account) return;
     yield web3client.poolHarvest(account.address);
-    yield put(poolGetStaked());
     yield put(poolGetEarned());
   } catch(err) {
     
@@ -78,6 +76,7 @@ function* exit() {
     yield web3client.poolExit(account.address);
     yield put(poolGetStaked());
     yield put(poolGetEarned());
+    yield put(poolGetStakeTokenBalance());
   } catch(err) {
     
   }
@@ -103,15 +102,30 @@ function* getStaked() {
     if (!account) return;
 
     const staked = yield web3client.getBalance(web3client.poolContract, account.address);
+    const totalStaked = yield web3client.getTotalSupply(web3client.poolContract);
     yield put(poolGetStakedSuccess(staked));
-    console.log('Staked : ', staked);
+    yield put(poolGetTotalStakedSuccess(totalStaked));
+    yield put(poolGetStakeTokenBalance());
   } catch(err) {
     
   }
 }
 
+function* getStakeTokenBalance() {
+  try {
+    const state = yield select();
+    const account = selectAccount(state);
+    if (!account) return;
+
+    const balance = yield web3client.getBalance(web3client.stakingTokenContract, account.address);
+    yield put(poolGetStakeTokenBalanceSuccess(balance));
+  } catch(err) {
+    console.error(err);
+  }
+}
+
 function* sagaWatcher() {
-  //yield takeLatest(ActionType.INIT_STORE as any, loadAllowance);
+  //yield takeLatest(ActionType.INIT_STORE as any, getStakeTokenBalance);
   yield takeLatest(ActionType.POOL_LOAD_ALLOWANCE as any, loadAllowance);
   yield takeLatest(ActionType.POOL_APPROVE_TOKEN as any, approve);
   yield takeLatest(ActionType.POOL_STAKE as any, stake);
@@ -120,6 +134,7 @@ function* sagaWatcher() {
   yield takeLatest(ActionType.POOL_EXIT as any, exit);
   yield takeLatest(ActionType.POOL_GET_EARNED as any, getEarned);
   yield takeLatest(ActionType.POOL_GET_STAKED as any, getStaked);
+  yield takeLatest(ActionType.POOL_GET_STAKE_TOKEN_BALANCE as any, getStakeTokenBalance);
 }
 
 export default [

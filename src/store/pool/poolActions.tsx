@@ -48,3 +48,17 @@ export const poolGetStakedSuccess = (payload: number) => ({
   type: ActionType.POOL_GET_STAKED_SUCCESS,
   payload,
 });
+
+export const poolGetStakeTokenBalance = () => ({
+  type: ActionType.POOL_GET_STAKE_TOKEN_BALANCE,
+});
+
+export const poolGetStakeTokenBalanceSuccess = (payload: number) => ({
+  type: ActionType.POOL_GET_STAKE_TOKEN_BALANCE_SUCCESS,
+  payload,
+});
+
+export const poolGetTotalStakedSuccess = (payload: number) => ({
+  type: ActionType.POOL_GET_TOTAL_STAKED_SUCCESS,
+  payload,
+});

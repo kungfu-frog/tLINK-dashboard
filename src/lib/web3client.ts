@@ -32,8 +32,8 @@ async function getBalance(contract: any, address?: string): Promise<number> {
   return parseInt(result);
 }
 
-async function getTotalSupply(): Promise<number> {
-  const result = await tokenContract.methods.totalSupply().call();
+async function getTotalSupply(contract: any,): Promise<number> {
+  const result = await contract.methods.totalSupply().call();
   return parseInt(result);
 }
 
@@ -140,7 +140,6 @@ async function poolExit(from: string) {
 
 async function poolGetEarned(address: string): Promise<number> {
   const result = await poolContract.methods.earned(address).call();
-  console.log('Earned : ', result);
   return result;
 }
 
