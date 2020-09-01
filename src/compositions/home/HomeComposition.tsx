@@ -34,7 +34,7 @@ export const HomeComposition = ({ account, totalSupply }: Props) => {
       <Card className='card card-v transparent'>
         <CardContent>
           <b>{numberWithDecimals(( account ? account.balance : 0 ), Config.Token.decimals, Config.Utils.decimals)}</b>
-          <Typography>TLINK Balance</Typography>
+          <Typography>{Config.Token.symbol} Balance</Typography>
         </CardContent>
       </Card>
     </React.Fragment>

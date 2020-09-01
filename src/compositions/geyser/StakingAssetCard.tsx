@@ -27,7 +27,7 @@ export const StakingAssetCard = ({ totalStaked, staked, allowance, approve }: Pr
       <CardContent>
         <div className='section'>
           <div className='circle'>
-            <img className="logo-image" src={StakeTokenImage} alt='Chainlink' />
+            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
           </div>
           <div className='center-h'>
             <h2>{`${Config.StakingToken.name} (${Config.StakingToken.symbol})`}</h2>

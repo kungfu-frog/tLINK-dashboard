@@ -27,7 +27,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <CardContent>
         <div className='section'>
           <div className='circle'>
-            <img className="logo-image" src={StakeTokenImage} alt='Chainlink' />
+            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
           </div>
           <div className='center-h'>
             <h2>{`${Config.StakingToken.name} (${Config.StakingToken.symbol})`}</h2>
@@ -68,7 +68,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <Dialog onClose={() => setStakeDialogOpen(false)} open={stakeDialogOpen}>
         <DialogTitle>
           <div className="center-v">
-            <img className="logo-image" src={StakeTokenImage} alt='Chainlink' />
+            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
             <span className="logo-text">{`Stake ${Config.StakingToken.symbol}`}</span>
           </div>
         </DialogTitle>
@@ -108,7 +108,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <Dialog onClose={() => setUnstakeDialogOpen(false)} open={unstakeDialogOpen}>
         <DialogTitle>
           <div className="center-v">
-            <img className="logo-image" src={StakeTokenImage} alt='Chainlink' />
+            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
             <span className="logo-text">{`Withdraw ${Config.StakingToken.symbol}`}</span>
           </div>
         </DialogTitle>

@@ -36,9 +36,8 @@ function* stake({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    console.log((payload * Math.pow(10, Config.StakingToken.decimals)).toString());
-    //yield web3client.poolStake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
-    //yield put(poolGetStaked());
+    yield web3client.poolStake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
+    yield put(poolGetStaked());
   } catch(err) {
     console.error(err);
   }

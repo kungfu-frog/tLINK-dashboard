@@ -111,6 +111,7 @@ async function unstake(amount: number, from: string) {
  * StakingRewards Pool Contract Functions
  */
 async function poolStake(amount: number, from: string) {
+  console.log(amount);
   await poolContract.methods.stake(amount).send({ from })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
