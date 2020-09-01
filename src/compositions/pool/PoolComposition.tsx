@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
@@ -11,7 +11,7 @@ import { selectAccount } from 'store/account/accountSelector';
 import StakingAssetCard from './StakingAsset';
 import DistributionAssetCard from './DistributionAsset';
 import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed } from 'store/pool/poolSelector';
-import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit } from 'store/pool/poolActions';
+import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit, poolLoadAllowance, poolGetEarned, poolGetStaked } from 'store/pool/poolActions';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
@@ -25,12 +25,15 @@ interface DispatchFromProps {
   approve: typeof poolApproveToken;
   harvest: typeof poolHarvest;
   exit: typeof poolExit;
+  loadAllowance: typeof poolLoadAllowance;
+  loadStaked: typeof poolGetStaked;
+  loadEarned: typeof poolGetEarned;
 }
 interface OwnProps {}
 
 type Props = StateFromProps & DispatchFromProps & OwnProps;
 
-export const PoolComposition = ({
+const PoolComposition = ({
   allowed,
   staked,
   approve,
@@ -39,7 +42,21 @@ export const PoolComposition = ({
   earned,
   harvest,
   exit,
+  loadAllowance,
+  loadEarned,
+  loadStaked,
 }: Props) => {
+  useEffect(() => {
+    if (allowed) {
+      loadEarned();
+      loadStaked();
+      const timeInterval = setInterval(() => {
+        loadEarned();
+        loadStaked();
+      }, 30000);
+      return () => clearInterval(timeInterval);
+    }
+  })
   return (
     <div>
       <Header />
@@ -60,7 +77,7 @@ export const PoolComposition = ({
               staked={staked}
               totalStaked={0}
               onApprove={approve}
-              onStake={stake}
+              onStake={(amount: number) => stake(amount)}
               onUnstake={unstake}
             />
           </div>
@@ -98,6 +115,9 @@ function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
     approve: () => dispatch(poolApproveToken()),
     harvest: () => dispatch(poolHarvest()),
     exit: () => dispatch(poolExit()),
+    loadAllowance: () => dispatch(poolLoadAllowance()),
+    loadEarned: () => dispatch(poolGetEarned()),
+    loadStaked: () => dispatch(poolGetStaked()),
   }
 }
 

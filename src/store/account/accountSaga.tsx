@@ -5,6 +5,7 @@ import {
 
 import { web3client } from 'lib';
 import { setAccount } from './accountActions';
+import { poolLoadAllowance } from 'store/pool/poolActions';
 
 function* setAccountSaga() {
   try {
@@ -12,6 +13,7 @@ function* setAccountSaga() {
     if (address) {
       const balance: number = yield web3client.getBalance(web3client.tokenContract, address);
       yield put(setAccount({ address, balance }));
+      yield put(poolLoadAllowance());
     }
     else {
       yield put(setAccount(undefined));

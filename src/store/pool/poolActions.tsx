@@ -4,19 +4,23 @@ export const poolApproveToken = () => ({
   type: ActionType.POOL_APPROVE_TOKEN,
 });
 
+export const poolLoadAllowance = () => ({
+  type: ActionType.POOL_LOAD_ALLOWANCE,
+});
+
 export const poolApproveTokenSuccess = (payload: number) => ({
   type: ActionType.POOL_APPROVE_TOKEN_SUCCESS,
   payload,
 });
 
-export const poolStake = (amount: number) => ({
+export const poolStake = (payload: number) => ({
   type: ActionType.POOL_STAKE,
-  amount,
+  payload,
 });
 
-export const poolWithdraw = (amount: number) => ({
+export const poolWithdraw = (payload: number) => ({
   type: ActionType.POOL_WITHDRAW,
-  amount,
+  payload,
 });
 
 export const poolHarvest = () => ({
@@ -31,16 +35,16 @@ export const poolGetEarned = () => ({
   type: ActionType.POOL_GET_EARNED,
 });
 
-export const poolGetEarnedSuccess = (amount: number) => ({
+export const poolGetEarnedSuccess = (payload: number) => ({
   type: ActionType.POOL_GET_EARNED_SUCCESS,
-  amount,
+  payload,
 });
 
 export const poolGetStaked = () => ({
   type: ActionType.POOL_GET_STAKED,
 });
 
-export const poolGetStakedSuccess = (amount: number) => ({
+export const poolGetStakedSuccess = (payload: number) => ({
   type: ActionType.POOL_GET_STAKED_SUCCESS,
-  amount,
+  payload,
 });

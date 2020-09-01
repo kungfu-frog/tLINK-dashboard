@@ -140,6 +140,7 @@ async function poolExit(from: string) {
 
 async function poolGetEarned(address: string): Promise<number> {
   const result = await poolContract.methods.earned(address).call();
+  console.log('Earned : ', result);
   return result;
 }
 

@@ -33,14 +33,14 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
           </div>
           <div className='center-h'>
             <span className='text-number'>
-              {numberWithDecimals(totalStaked, Config.StakingToken.decimals, Config.Utils.decimals)}
+              {numberWithDecimals(staked, Config.StakingToken.decimals, Config.Utils.decimals)}
             </span>
           </div>
           <div className='center-h mb-20'>
             <span className='text-small'>{`${Config.StakingToken.symbol} Staked`}</span>
           </div>
         </div>
-        {allowed ? (
+        {!allowed ? (
           <React.Fragment>
             <div className='section'>
               <div className='mt-20' />
@@ -92,7 +92,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
         <DialogActions>
           <Button
             className='btn-text'
-            onClick={() => onStake(parseFloat(stakeAmount))}
+            onClick={() => { onStake(parseFloat(stakeAmount)); setStakeDialogOpen(false); }}
           >
             Stake
           </Button>
@@ -117,7 +117,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
         <DialogActions>
           <Button
             className='btn-text'
-            onClick={() => onStake(parseFloat(unstakeAmount))}
+            onClick={() => { onUnstake(parseFloat(unstakeAmount)); setUnstakeDialogOpen(false); }}
           >
             Unstake
           </Button>
