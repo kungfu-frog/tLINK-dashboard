@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import Config from 'config';
+import BigNumber from 'bignumber.js';
 
 let web3 = (window as any).web3;
 if (typeof web3 !== 'undefined') {
@@ -111,15 +112,14 @@ async function unstake(amount: number, from: string) {
  * StakingRewards Pool Contract Functions
  */
 async function poolStake(amount: number, from: string) {
-  console.log(amount);
-  await poolContract.methods.stake(amount).send({ from })
+  await poolContract.methods.stake(new BigNumber(amount)).send({ from })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
 async function poolWithdraw(amount: number, from: string) {
-  await poolContract.methods.withdraw(amount).send({ from })
+  await poolContract.methods.withdraw(new BigNumber(amount)).send({ from })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
