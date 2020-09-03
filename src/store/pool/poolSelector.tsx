@@ -30,3 +30,8 @@ export const selectPoolTotalStaked = createSelector(
   [ selectPoolState ],
   (state) => state.totalStaked,
 );
+
+export const selectPoolPeriodFinish = createSelector(
+  [ selectPoolState ],
+  (state) => state.periodFinish,
+);

@@ -13,4 +13,13 @@
   &-small {
     color: $light-blue;
   }
+
+  &-error {
+    color: $light-red;
+    font-size: 1rem;
+  }
+
+  &-gray {
+    color: $dark-gray;
+  }
 }

@@ -4,7 +4,7 @@ import { ActionType, Action } from 'types';
 import { web3client } from 'lib';
 import Config from 'config';
 import { selectAccount } from 'store/account/accountSelector';
-import { poolApproveTokenSuccess, poolGetEarnedSuccess, poolGetStaked, poolGetEarned, poolGetStakedSuccess, poolGetStakeTokenBalanceSuccess, poolGetStakeTokenBalance, poolGetTotalStakedSuccess } from './poolActions';
+import { poolApproveTokenSuccess, poolGetEarnedSuccess, poolGetStaked, poolGetEarned, poolGetStakedSuccess, poolGetStakeTokenBalanceSuccess, poolGetStakeTokenBalance, poolGetTotalStakedSuccess, poolGetPeriodFinishSuccess } from './poolActions';
 
 function* loadAllowance() {
   try {
@@ -36,7 +36,7 @@ function* stake({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolStake(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
+    yield web3client.poolStake(payload, account.address);
     yield put(poolGetStaked());
   } catch(err) {
     console.error(err);
@@ -48,7 +48,7 @@ function* withdraw({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolWithdraw(payload * Math.pow(10, Config.StakingToken.decimals), account.address);
+    yield web3client.poolWithdraw(payload, account.address);
     yield put(poolGetStaked());
   } catch(err) {
     
@@ -123,6 +123,15 @@ function* getStakeTokenBalance() {
   }
 }
 
+function* getPeriodFinish() {
+  try {
+    const period = yield web3client.poolGetPeriodFinish();
+    yield put(poolGetPeriodFinishSuccess(period));
+  } catch(err) {
+    yield put(poolGetPeriodFinishSuccess(new Date()));
+  }
+}
+
 function* sagaWatcher() {
   //yield takeLatest(ActionType.INIT_STORE as any, getStakeTokenBalance);
   yield takeLatest(ActionType.POOL_LOAD_ALLOWANCE as any, loadAllowance);
@@ -134,6 +143,7 @@ function* sagaWatcher() {
   yield takeLatest(ActionType.POOL_GET_EARNED as any, getEarned);
   yield takeLatest(ActionType.POOL_GET_STAKED as any, getStaked);
   yield takeLatest(ActionType.POOL_GET_STAKE_TOKEN_BALANCE as any, getStakeTokenBalance);
+  yield takeLatest(ActionType.INIT_STORE as any, getPeriodFinish);
 }
 
 export default [

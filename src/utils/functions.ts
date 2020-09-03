@@ -16,6 +16,21 @@ export const getTimeLeft = (deadlineHour: number) => {
   }
 }
 
+export const getDateLeft = (date: Date) => {
+  const now = moment.utc();
+  const deadline = moment.utc(date);
+  if (now.isAfter(deadline)) {
+    return 0;
+  } else {
+    return deadline.diff(now, "seconds");
+  }
+}
+
+export const secondsToDays    = (seconds: number) => Math.floor(seconds / (3600*24));
+export const secondsToHours   = (seconds: number) => Math.floor(seconds % (3600*24) / 3600);
+export const secondsToMinutes = (seconds: number) => Math.floor(seconds % 3600 / 60);
+export const secondsToSeconds = (seconds: number) => Math.floor(seconds % 60);
+
 export const truncateAddress = (address: string) => {
   return `${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}`;
 }

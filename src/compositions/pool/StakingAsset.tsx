@@ -73,8 +73,11 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
           </div>
         </DialogTitle>
         <DialogContent>
+          <div className='mb-10 text-small'>
+            Community distributes <b>{Config.Pool.balance}</b>&nbsp; {Config.Token.symbol} as rewards
+          </div>
           <div className='mb-10'>
-            Current total staked balance is&nbsp;
+            Total staked {Config.StakingToken.symbol} by Community is &nbsp;
             <b>{numberWithDecimals(totalStaked, Config.StakingToken.decimals, Config.Utils.decimals)}</b>
           </div>
           <span>

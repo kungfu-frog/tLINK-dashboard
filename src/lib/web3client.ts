@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import Config from 'config';
-import BigNumber from 'bignumber.js';
 
 let web3 = (window as any).web3;
 if (typeof web3 !== 'undefined') {
@@ -111,15 +110,27 @@ async function unstake(amount: number, from: string) {
 /**
  * StakingRewards Pool Contract Functions
  */
+function precision(a: number) {
+  if (!isFinite(a)) return 0;
+  var e = 1, p = 0;
+  while (Math.round(a * e) / e !== a) { e *= 10; p++; }
+  return p;
+}
 async function poolStake(amount: number, from: string) {
-  await poolContract.methods.stake(new BigNumber(amount)).send({ from })
+  const precision_ = precision(amount) + 1;
+  const amount_ = Web3.utils.toBN(amount * 10 ** precision_);
+  const pow_ = Web3.utils.toBN(10 ** (Config.StakingToken.decimals - precision_));
+  await poolContract.methods.stake(amount_.mul(pow_)).send({ from })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
 async function poolWithdraw(amount: number, from: string) {
-  await poolContract.methods.withdraw(new BigNumber(amount)).send({ from })
+  const precision_ = precision(amount);
+  const amount_ = Web3.utils.toBN(amount * 10 ** precision_);
+  const pow_ = Web3.utils.toBN(10 ** (Config.StakingToken.decimals - precision_));
+  await poolContract.methods.withdraw(amount_.mul(pow_)).send({ from })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
@@ -144,6 +155,11 @@ async function poolGetEarned(address: string): Promise<number> {
   return result;
 }
 
+async function poolGetPeriodFinish(): Promise<Date> {
+  const periodFinish = await poolContract.methods.periodFinish().call();
+  return new Date(parseInt(periodFinish) * 1000);
+}
+
 export default {
   getContract,
   getAccount,
@@ -164,6 +180,7 @@ export default {
   poolHarvest,
   poolExit,
   poolGetEarned,
+  poolGetPeriodFinish,
   // Utils
   promisify,
   transferToken,

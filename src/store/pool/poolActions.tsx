@@ -62,3 +62,12 @@ export const poolGetTotalStakedSuccess = (payload: number) => ({
   type: ActionType.POOL_GET_TOTAL_STAKED_SUCCESS,
   payload,
 });
+
+export const poolGetPeriodFinish = () => ({
+  type: ActionType.POOL_GET_PERIOD_FINISH,
+});
+
+export const poolGetPeriodFinishSuccess = (payload: Date) => ({
+  type: ActionType.POOL_GET_PERIOD_FINISH_SUCCESS,
+  payload,
+});

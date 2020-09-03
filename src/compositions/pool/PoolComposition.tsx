@@ -10,8 +10,9 @@ import { selectAccount } from 'store/account/accountSelector';
 
 import StakingAssetCard from './StakingAsset';
 import DistributionAssetCard from './DistributionAsset';
-import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed, selectStakeTokenBalance, selectPoolTotalStaked } from 'store/pool/poolSelector';
+import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed, selectStakeTokenBalance, selectPoolTotalStaked, selectPoolPeriodFinish } from 'store/pool/poolSelector';
 import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit, poolGetEarned, poolGetStaked } from 'store/pool/poolActions';
+import { getDateLeft, secondsToDays, secondsToHours, secondsToMinutes, secondsToSeconds } from 'utils';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
@@ -20,6 +21,7 @@ interface StateFromProps {
   allowed: ReturnType<typeof selectPoolStakeAllowed>;
   totalStaked: ReturnType<typeof selectPoolTotalStaked>
   stakeTokenBalance: ReturnType<typeof selectStakeTokenBalance>;
+  deadline: ReturnType<typeof selectPoolPeriodFinish>;
 }
 interface DispatchFromProps {
   stake: typeof poolStake;
@@ -39,6 +41,7 @@ const PoolComposition = ({
   staked,
   totalStaked,
   stakeTokenBalance,
+  deadline,
   approve,
   stake,
   unstake,
@@ -48,6 +51,14 @@ const PoolComposition = ({
   loadEarned,
   loadStaked,
 }: Props) => {
+  const [timeLeft, setTimeLeft] = React.useState<number>(0);
+
+  useEffect(() => setTimeLeft(getDateLeft(deadline)), [deadline]);
+
+  useEffect(() => {
+    const timeInterval = setInterval(() => setTimeLeft(getDateLeft(deadline)), 1000);
+    return () => clearInterval(timeInterval);
+  });
   useEffect(() => {
     if (allowed) {
       loadEarned();
@@ -58,16 +69,21 @@ const PoolComposition = ({
       }, 30000);
       return () => clearInterval(timeInterval);
     }
-  })
+  });
   return (
     <div>
       <Header />
       <Container>
         <div className='flex-v screen-center'>
-          <div className='center-h mb-30'>
-            <span className='text-title'>
+          <div className='mb-20'>
+            <div className='center-h text-title mb-10'>
               {`Deposit ${Config.StakingToken.symbol} and earn ${Config.Token.symbol}`}
-            </span>
+            </div>
+            <div className={`center-h ${timeLeft > 0 ? 'text-small' : 'text-error'}`}>
+              {timeLeft > 0 ? 
+                `Time Left : ${secondsToDays(timeLeft)} day(s), ${secondsToHours(timeLeft)} hour(s), ${secondsToMinutes(timeLeft)} minute(s), ${secondsToSeconds(timeLeft)} second(s)` :
+                `Next pool hasn't been started yet.`}
+            </div>
           </div>
           <div className='center-h wp-100 mt-30'>
             <DistributionAssetCard
@@ -110,6 +126,7 @@ function mapStateToProps(
     allowed: selectPoolStakeAllowed(state),
     earned: selectPoolEarned(state),
     stakeTokenBalance: selectStakeTokenBalance(state),
+    deadline: selectPoolPeriodFinish(state),
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {

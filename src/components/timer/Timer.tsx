@@ -5,41 +5,9 @@ import Config from 'config';
 
 interface Props {
   seconds: number;
+  started: boolean;
   onEnd: () => void;
 }
-
-/*const CustomTimer: React.FC<Props> = ({ seconds, checkpoints }: Props) => {
-  return (
-    <Timer
-      initialTime={seconds}
-      direction='backward'
-      checkpoints={checkpoints}
-    >
-      {() => (
-        <div className="timer center-h">
-          <div className="timer__section">
-            <b><Timer.Days /></b>
-            <span>days</span>
-          </div>
-          <div className="timer__section">
-            <b><Timer.Hours /></b>
-            <span>hours</span>
-          </div>
-          <div className="timer__section">
-            <b><Timer.Minutes /></b>
-            <span>minutes</span>
-          </div>
-          <div className="timer__section">
-            <b><Timer.Seconds /></b>
-            <span>seconds</span>
-          </div>
-        </div>
-      )}
-    </Timer>
-  )
-};
-
-export default CustomTimer;*/
 
 const withTimer = (timerProps: any) => (WrappedComponent: any) => (wrappedComponentProps: Props) => (
   <Timer
@@ -54,17 +22,19 @@ const withTimer = (timerProps: any) => (WrappedComponent: any) => (wrappedCompon
 class CustomTimer extends React.Component {
   componentDidMount() {
     const { setCheckpoints, setTime, start } = (this.props as any).timer;
-    const { onEnd } = (this.props as any);
+    const { onEnd, started } = (this.props as any);
 
     setCheckpoints([{
       time: 1000,
       callback: () => {
-        setTime(getTimeLeft(Config.Token.rebase.offset) * 1000);
+        setTime(started ? getTimeLeft(Config.Token.rebase.offset) * 1000 : 0);
         onEnd();
       }
     }]);
-    setTime(getTimeLeft(Config.Token.rebase.offset) * 1000);
-    start();
+    if (started) {
+      setTime(getTimeLeft(Config.Token.rebase.offset) * 1000);
+      start();
+    }
   }
 
   render() {

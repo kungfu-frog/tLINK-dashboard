@@ -7,6 +7,7 @@ export interface PoolReducerType {
   totalStaked: number;
   stakeTokenBalance: number;
   earned: number;
+  periodFinish: Date;
 }
 
 export const defaultState: PoolReducerType = {
@@ -15,6 +16,7 @@ export const defaultState: PoolReducerType = {
   totalStaked: 0,
   stakeTokenBalance: 0,
   earned: 0,
+  periodFinish: new Date(),
 };
 
 // reducers
@@ -68,10 +70,21 @@ const poolGetTotalStakedSuccessReducer = (
   };
 };
 
+const poolGetPeriodFinishSuccessReducer = (
+  state: PoolReducerType,
+  { payload }: Action<Date>,
+): PoolReducerType => {
+  return {
+    ...state,
+    periodFinish: payload,
+  };
+};
+
 export const poolReducer = createReducer<PoolReducerType>(defaultState, {
   [ActionType.POOL_APPROVE_TOKEN_SUCCESS]: poolApproveTokenSuccessReducer,
   [ActionType.POOL_GET_STAKED_SUCCESS]: poolGetStakedSuccessReducer,
   [ActionType.POOL_GET_EARNED_SUCCESS]: poolGetEarnedSuccessReducer,
   [ActionType.POOL_GET_STAKE_TOKEN_BALANCE_SUCCESS]: poolGetStakeTokenBalanceReducer,
   [ActionType.POOL_GET_TOTAL_STAKED_SUCCESS]: poolGetTotalStakedSuccessReducer,
+  [ActionType.POOL_GET_PERIOD_FINISH_SUCCESS]: poolGetPeriodFinishSuccessReducer,
 });
