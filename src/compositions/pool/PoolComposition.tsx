@@ -100,7 +100,7 @@ const PoolComposition = ({
               onUnstake={unstake}
             />
           </div>
-          <div className='center-h mt-30'>
+          <div className='center-h mt-30 mb-30'>
             <Button
               variant='contained'
               className='btn-primary'
@@ -110,6 +110,15 @@ const PoolComposition = ({
               Harvest & Withdraw
             </Button>
           </div>
+          <a className='bottom-left text-small' href={`${Config.etherscan}${Config.Token.address}`} target='_blank' rel="noopener noreferrer">
+            {Config.Token.symbol} Contract
+          </a>
+          <a className='bottom-middle text-small' href={`${Config.etherscan}${Config.Pool.address}`} target='_blank' rel="noopener noreferrer">
+            Pool Contract
+          </a>
+          <a className='bottom-right text-small' href={`${Config.etherscan}${Config.StakingToken.address}`} target='_blank' rel="noopener noreferrer">
+            {Config.StakingToken.symbol} Contract
+          </a>
         </div>
       </Container>
     </div>

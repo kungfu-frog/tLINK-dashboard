@@ -23,6 +23,26 @@
   min-height: calc(100vh - 72px);
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  & .bottom-right {
+    position: absolute;
+    right: 3px;
+    bottom: 3px;
+  }
+
+  & .bottom-left {
+    position: absolute;
+    left: 3px;
+    bottom: 3px;
+  }
+
+  & .bottom-middle {
+    position: absolute;
+    left: auto;
+    right: auto;
+    bottom: 3px;
+  }
 }
 
 .transparent {
