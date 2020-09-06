@@ -2,7 +2,6 @@ import React from 'react';
 import { Button, Card, CardContent, Dialog, DialogTitle, Fab, TextField, DialogContent, DialogActions } from '@material-ui/core';
 import Config from 'config';
 import { numberWithDecimals } from 'utils';
-import StakeTokenImage from 'assets/img/token-stake.png';
 
 interface OwnProps {
   allowed: boolean;
@@ -49,18 +48,18 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <CardContent>
         <div className='section'>
           <div className='circle'>
-            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
+            <span role='img' aria-label={Config.UniToken.symbol}>🌱</span>
           </div>
           <div className='center-h'>
-            <h2>{`${Config.StakingToken.name} (${Config.StakingToken.symbol})`}</h2>
+            <h2>{`${Config.UniToken.name} (${Config.UniToken.symbol})`}</h2>
           </div>
           <div className='center-h'>
             <span className='text-number'>
-              {numberWithDecimals(staked, Config.StakingToken.decimals, Config.Utils.decimals)}
+              {numberWithDecimals(staked, Config.UniToken.decimals, Config.Utils.decimals)}
             </span>
           </div>
           <div className='center-h mb-20'>
-            <span className='text-small'>{`${Config.StakingToken.symbol} Staked`}</span>
+            <span className='text-small'>{`${Config.UniToken.symbol} Staked`}</span>
           </div>
         </div>
         {!allowed ? (
@@ -73,7 +72,7 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
                   className='btn-primary'
                   onClick={onApprove}
                 >
-                  {`Approve ${Config.StakingToken.symbol}`}
+                  {`Approve ${Config.UniToken.symbol}`}
                 </Button>
               </div>
             </div>
@@ -90,21 +89,21 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <Dialog onClose={() => setStakeDialogOpen(false)} open={stakeDialogOpen}>
         <DialogTitle>
           <div className="center-v">
-            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
-            <span className="logo-text">{`Stake ${Config.StakingToken.symbol}`}</span>
+            <span role='img' aria-label={Config.UniToken.symbol}>🌱</span>
+            <span className="logo-text">{`Stake ${Config.UniToken.symbol}`}</span>
           </div>
         </DialogTitle>
         <DialogContent>
           <div className='mb-10 text-small'>
-            Community distributes <b>{Config.Pool.balance}</b>&nbsp; {Config.Token.symbol} as rewards
+            Community distributes <b>{Config.UniPool.balance}</b>&nbsp; {Config.Token.symbol} as rewards
           </div>
           <div className='mb-10'>
-            Total staked {Config.StakingToken.symbol} by Community is &nbsp;
-            <b>{numberWithDecimals(totalStaked, Config.StakingToken.decimals, Config.Utils.decimals)}</b>
+            Total staked {Config.UniToken.symbol} by Community is &nbsp;
+            <b>{numberWithDecimals(totalStaked, Config.UniToken.decimals, Config.Utils.decimals)}</b>
           </div>
           <span>
-            Your {Config.StakingToken.symbol} Balance is&nbsp;
-            <b>{numberWithDecimals(balance, Config.StakingToken.decimals, Config.Utils.decimals)}</b>
+            Your {Config.UniToken.symbol} Balance is&nbsp;
+            <b>{numberWithDecimals(balance, Config.UniToken.decimals, Config.Utils.decimals)}</b>
           </span>
           <TextField
             className='staking-input mt-50'
@@ -133,18 +132,18 @@ export const StakingAsset = ({ totalStaked, staked, allowed, onApprove, onStake,
       <Dialog onClose={() => setUnstakeDialogOpen(false)} open={unstakeDialogOpen}>
         <DialogTitle>
           <div className="center-v">
-            <img className="logo-image" src={StakeTokenImage} alt={Config.StakingToken.name} />
-            <span className="logo-text">{`Withdraw ${Config.StakingToken.symbol}`}</span>
+            <span role='img' aria-label={Config.UniToken.symbol}>🌱</span>
+            <span className="logo-text">{`Withdraw ${Config.UniToken.symbol}`}</span>
           </div>
         </DialogTitle>
         <DialogContent>
           <div className='mb-10'>
-            Current total staked balance is&nbsp;
-            <b>{numberWithDecimals(totalStaked, Config.StakingToken.decimals, Config.Utils.decimals)}</b>
+            Total staked {Config.UniToken.symbol} by Community is &nbsp;
+            <b>{numberWithDecimals(totalStaked, Config.UniToken.decimals, Config.Utils.decimals)}</b>
           </div>
           <span>
-            Your {Config.StakingToken.symbol} Balance is&nbsp;
-            <b>{numberWithDecimals(balance, Config.StakingToken.decimals, Config.Utils.decimals)}</b>
+            Your {Config.UniToken.symbol} Balance is&nbsp;
+            <b>{numberWithDecimals(balance, Config.UniToken.decimals, Config.Utils.decimals)}</b>
           </span>
           <TextField
             className='staking-input mt-50'

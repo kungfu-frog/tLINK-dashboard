@@ -36,7 +36,7 @@ function* stake({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolStake(payload, account.address);
+    yield web3client.poolStake(web3client.poolContract, payload, account.address);
     yield put(poolGetStaked());
   } catch(err) {
     console.error(err);
@@ -48,7 +48,7 @@ function* withdraw({ payload }: Action<number>) {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolWithdraw(payload, account.address);
+    yield web3client.poolWithdraw(web3client.poolContract, payload, account.address);
     yield put(poolGetStaked());
   } catch(err) {
     
@@ -60,7 +60,7 @@ function* harvest() {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolHarvest(account.address);
+    yield web3client.poolHarvest(web3client.poolContract, account.address);
     yield put(poolGetEarned());
   } catch(err) {
     
@@ -72,7 +72,7 @@ function* exit() {
     const state = yield select();
     const account = selectAccount(state);
     if (!account) return;
-    yield web3client.poolExit(account.address);
+    yield web3client.poolExit(web3client.poolContract, account.address);
     yield put(poolGetStaked());
     yield put(poolGetEarned());
     yield put(poolGetStakeTokenBalance());
@@ -87,7 +87,7 @@ function* getEarned() {
     const account = selectAccount(state);
     if (!account) return;
 
-    const earned = yield web3client.poolGetEarned(account.address);
+    const earned = yield web3client.poolGetEarned(web3client.poolContract, account.address);
     yield put(poolGetEarnedSuccess(earned));
   } catch(err) {
     
@@ -125,7 +125,7 @@ function* getStakeTokenBalance() {
 
 function* getPeriodFinish() {
   try {
-    const period = yield web3client.poolGetPeriodFinish();
+    const period = yield web3client.poolGetPeriodFinish(web3client.poolContract);
     yield put(poolGetPeriodFinishSuccess(period));
   } catch(err) {
     yield put(poolGetPeriodFinishSuccess(new Date()));

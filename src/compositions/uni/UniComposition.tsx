@@ -10,33 +10,33 @@ import { selectAccount } from 'store/account/accountSelector';
 
 import StakingAssetCard from './StakingAsset';
 import DistributionAssetCard from './DistributionAsset';
-import { selectPoolStaked, selectPoolEarned, selectPoolStakeAllowed, selectStakeTokenBalance, selectPoolTotalStaked, selectPoolPeriodFinish } from 'store/pool/poolSelector';
-import { poolStake, poolWithdraw, poolApproveToken, poolHarvest, poolExit, poolGetEarned, poolGetStaked } from 'store/pool/poolActions';
+import { selectUniStaked, selectUniEarned, selectUniStakeAllowed, selectStakeTokenBalance, selectUniTotalStaked, selectUniPeriodFinish } from 'store/uni/uniSelector';
+import { uniStake, uniWithdraw, uniApproveToken, uniHarvest, uniExit, uniGetEarned, uniGetStaked } from 'store/uni/uniActions';
 import { getDateLeft, secondsToDays, secondsToHours, secondsToMinutes, secondsToSeconds } from 'utils';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
-  staked: ReturnType<typeof selectPoolStaked>;
-  earned: ReturnType<typeof selectPoolEarned>;
-  allowed: ReturnType<typeof selectPoolStakeAllowed>;
-  totalStaked: ReturnType<typeof selectPoolTotalStaked>
+  staked: ReturnType<typeof selectUniStaked>;
+  earned: ReturnType<typeof selectUniEarned>;
+  allowed: ReturnType<typeof selectUniStakeAllowed>;
+  totalStaked: ReturnType<typeof selectUniTotalStaked>
   stakeTokenBalance: ReturnType<typeof selectStakeTokenBalance>;
-  deadline: ReturnType<typeof selectPoolPeriodFinish>;
+  deadline: ReturnType<typeof selectUniPeriodFinish>;
 }
 interface DispatchFromProps {
-  stake: typeof poolStake;
-  unstake: typeof poolWithdraw;
-  approve: typeof poolApproveToken;
-  harvest: typeof poolHarvest;
-  exit: typeof poolExit;
-  loadStaked: typeof poolGetStaked;
-  loadEarned: typeof poolGetEarned;
+  stake: typeof uniStake;
+  unstake: typeof uniWithdraw;
+  approve: typeof uniApproveToken;
+  harvest: typeof uniHarvest;
+  exit: typeof uniExit;
+  loadStaked: typeof uniGetStaked;
+  loadEarned: typeof uniGetEarned;
 }
 interface OwnProps {}
 
 type Props = StateFromProps & DispatchFromProps & OwnProps;
 
-const PoolComposition = ({
+const UniComposition = ({
   allowed,
   staked,
   totalStaked,
@@ -77,7 +77,7 @@ const PoolComposition = ({
         <div className='flex-v screen-center'>
           <div className='mb-20'>
             <div className='center-h text-title mb-10'>
-              {`Deposit ${Config.StakingToken.symbol} and earn ${Config.Token.symbol}`}
+              {`Deposit ${Config.UniToken.symbol} and earn ${Config.Token.symbol}`}
             </div>
             <div className={`center-h ${timeLeft > 0 ? 'text-small' : 'text-error'}`}>
               {timeLeft > 0 ? 
@@ -113,11 +113,11 @@ const PoolComposition = ({
           <a className='bottom-left text-small' href={`${Config.etherscan}${Config.Token.address}`} target='_blank' rel="noopener noreferrer">
             {Config.Token.symbol} Contract
           </a>
-          <a className='bottom-middle text-small' href={`${Config.etherscan}${Config.Pool.address}`} target='_blank' rel="noopener noreferrer">
+          <a className='bottom-middle text-small' href={`${Config.etherscan}${Config.UniPool.address}`} target='_blank' rel="noopener noreferrer">
             Pool Contract
           </a>
-          <a className='bottom-right text-small' href={`${Config.etherscan}${Config.StakingToken.address}`} target='_blank' rel="noopener noreferrer">
-            {Config.StakingToken.symbol} Contract
+          <a className='bottom-right text-small' href={`${Config.etherscan}${Config.UniToken.address}`} target='_blank' rel="noopener noreferrer">
+            {Config.UniToken.symbol} Contract
           </a>
         </div>
       </Container>
@@ -130,27 +130,27 @@ function mapStateToProps(
 ): StateFromProps {
   return {
     account: selectAccount(state),
-    totalStaked: selectPoolTotalStaked(state),
-    staked: selectPoolStaked(state),
-    allowed: selectPoolStakeAllowed(state),
-    earned: selectPoolEarned(state),
+    totalStaked: selectUniTotalStaked(state),
+    staked: selectUniStaked(state),
+    allowed: selectUniStakeAllowed(state),
+    earned: selectUniEarned(state),
     stakeTokenBalance: selectStakeTokenBalance(state),
-    deadline: selectPoolPeriodFinish(state),
+    deadline: selectUniPeriodFinish(state),
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
   return {
-    stake: (payload: number) => dispatch(poolStake(payload)),
-    unstake: (payload: number) => dispatch(poolWithdraw(payload)),
-    approve: () => dispatch(poolApproveToken()),
-    harvest: () => dispatch(poolHarvest()),
-    exit: () => dispatch(poolExit()),
-    loadEarned: () => dispatch(poolGetEarned()),
-    loadStaked: () => dispatch(poolGetStaked()),
+    stake: (payload: number) => dispatch(uniStake(payload)),
+    unstake: (payload: number) => dispatch(uniWithdraw(payload)),
+    approve: () => dispatch(uniApproveToken()),
+    harvest: () => dispatch(uniHarvest()),
+    exit: () => dispatch(uniExit()),
+    loadEarned: () => dispatch(uniGetEarned()),
+    loadStaked: () => dispatch(uniGetStaked()),
   }
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(PoolComposition)
+)(UniComposition)

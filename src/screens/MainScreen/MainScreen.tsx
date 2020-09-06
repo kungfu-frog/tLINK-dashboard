@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import {
     HomeComposition,
-    GeyserComposition,
     PoolComposition,
+    UniComposition,
+    FarmComposition
 } from 'compositions';
 
 import 'assets/scss/index.scss';
@@ -15,8 +16,9 @@ class MainScreen extends Component {
             <Router>
                 <Switch>
                     <Route path='/' exact={true} component={HomeComposition} />
-                    <Route path='/geyser' exact={true} component={GeyserComposition} />
-                    <Route path='/pool' exact={true} component={PoolComposition} />
+                    <Route path='/farm' exact={true} component={FarmComposition} />
+                    <Route path='/farm-shib' exact={true} component={PoolComposition} />
+                    <Route path='/farm-uni' exact={true} component={UniComposition} />
                 </Switch>
             </Router>
         );

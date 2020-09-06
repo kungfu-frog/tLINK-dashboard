@@ -6,6 +6,7 @@ import {
 import { web3client } from 'lib';
 import { setAccount } from './accountActions';
 import { poolLoadAllowance, poolGetPeriodFinish } from 'store/pool/poolActions';
+import { uniLoadAllowance } from 'store/uni/uniActions';
 
 function* setAccountSaga() {
   try {
@@ -15,6 +16,7 @@ function* setAccountSaga() {
       yield put(setAccount({ address, balance }));
       yield put(poolLoadAllowance());
       yield put(poolGetPeriodFinish());
+      yield put(uniLoadAllowance());
     }
     else {
       yield put(setAccount(undefined));

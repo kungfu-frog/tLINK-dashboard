@@ -12,6 +12,10 @@
   &.card-h {
     margin-right: 50px;
     width: 360px;
+
+    &.medium {
+      width: 300px;
+    }
   }
 
   & b {

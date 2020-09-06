@@ -12,6 +12,8 @@ const tokenContract: any = getContract(Config.Token.abi, Config.Token.address);
 const orchestratorContract: any = getContract(Config.Orchestrator.abi, Config.Orchestrator.address);
 const stakingTokenContract: any = getContract(Config.StakingToken.abi, Config.StakingToken.address);
 const poolContract: any = getContract(Config.Pool.abi, Config.Pool.address);
+const uniTokenContract: any = getContract(Config.UniToken.abi, Config.UniToken.address);
+const uniContract: any = getContract(Config.UniPool.abi, Config.UniPool.address);
 
 /**
  * Common Contract Functions
@@ -116,47 +118,47 @@ function precision(a: number) {
   while (Math.round(a * e) / e !== a) { e *= 10; p++; }
   return p;
 }
-async function poolStake(amount: number, from: string) {
+async function poolStake(contract: any, amount: number, from: string) {
   const precision_ = precision(amount) + 1;
   const amount_ = Web3.utils.toBN(amount * 10 ** precision_);
   const pow_ = Web3.utils.toBN(10 ** (Config.StakingToken.decimals - precision_));
-  await poolContract.methods.stake(amount_.mul(pow_)).send({ from })
+  await contract.methods.stake(amount_.mul(pow_)).send({ from, gas: 200000 })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
-async function poolWithdraw(amount: number, from: string) {
+async function poolWithdraw(contract: any, amount: number, from: string) {
   const precision_ = precision(amount);
   const amount_ = Web3.utils.toBN(amount * 10 ** precision_);
   const pow_ = Web3.utils.toBN(10 ** (Config.StakingToken.decimals - precision_));
-  await poolContract.methods.withdraw(amount_.mul(pow_)).send({ from })
+  await contract.methods.withdraw(amount_.mul(pow_)).send({ from, gas: 200000 })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
-async function poolHarvest(from: string) {
-  await poolContract.methods.getReward().send({ from })
+async function poolHarvest(contract: any, from: string) {
+  await contract.methods.getReward().send({ from, gas: 200000 })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
-async function poolExit(from: string) {
-  await poolContract.methods.exit().send({ from })
+async function poolExit(contract: any, from: string) {
+  await contract.methods.exit().send({ from, gas: 200000 })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
 }
 
-async function poolGetEarned(address: string): Promise<number> {
-  const result = await poolContract.methods.earned(address).call();
+async function poolGetEarned(contract: any, address: string): Promise<number> {
+  const result = await contract.methods.earned(address).call();
   return result;
 }
 
-async function poolGetPeriodFinish(): Promise<Date> {
-  const periodFinish = await poolContract.methods.periodFinish().call();
+async function poolGetPeriodFinish(contract: any): Promise<Date> {
+  const periodFinish = await contract.methods.periodFinish().call();
   return new Date(parseInt(periodFinish) * 1000);
 }
 
@@ -189,4 +191,6 @@ export default {
   orchestratorContract,
   stakingTokenContract,
   poolContract,
+  uniTokenContract,
+  uniContract,
 };

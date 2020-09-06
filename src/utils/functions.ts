@@ -1,8 +1,9 @@
 import moment from 'moment';
 
-export const numberWithDecimals = (value: number, divideDecimals: number, showDecimals: number) => {
+export const numberWithDecimals = (value: number, divideDecimals: number, showDecimals?: number) => {
   const _value = value / Math.pow(10, divideDecimals);
-  return _value.toFixed(showDecimals);
+  if (showDecimals) return _value.toFixed(showDecimals);
+  return _value;
 }
 
 export const getTimeLeft = (deadlineHour: number) => {
