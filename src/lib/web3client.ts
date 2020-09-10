@@ -39,8 +39,8 @@ async function getTotalSupply(contract: any,): Promise<number> {
   return parseInt(result);
 }
 
-async function rebase() {
-  await orchestratorContract.methods.rebase().send()
+async function rebase(from: string) {
+  await orchestratorContract.methods.rebase().send({ from, gas: 900000 })
     .on('error', function(error: any, receipt: any) {
       console.log(error, receipt);
     });
@@ -119,7 +119,7 @@ function precision(a: number) {
   return p;
 }
 async function poolStake(contract: any, amount: number, from: string) {
-  const precision_ = precision(amount) + 1;
+  const precision_ = precision(amount);
   const amount_ = Web3.utils.toBN(amount * 10 ** precision_);
   const pow_ = Web3.utils.toBN(10 ** (Config.StakingToken.decimals - precision_));
   await contract.methods.stake(amount_.mul(pow_)).send({ from, gas: 200000 })

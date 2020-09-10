@@ -1,0 +1,35 @@
+.home {
+  &-container {
+    display: flex;
+
+    @media screen and (max-width: $tablet) {
+      display: block;
+    }
+  }
+
+  &-timer {
+    width: 60%;
+
+    @media screen and (max-width: $tablet) {
+      width: auto;
+      margin: 10px 15px;
+    }
+  }
+
+  &-info {
+    width: 40%;
+
+    @media screen and (max-width: $tablet) {
+      width: auto;
+      margin: 50px 15px 10px 15px;
+    }
+
+    &__container {
+      width: 300px;
+
+      @media screen and (max-width: $tablet) {
+        width: 250px;
+      }
+    }
+  }
+}

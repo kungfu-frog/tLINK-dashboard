@@ -124,3 +124,19 @@
 .mr-30 {
   margin-right: 30px !important;
 }
+
+h1 {
+  @media screen and (max-width: $tablet) {
+    font-size: 1.2em;
+    margin-bottom: 50px;
+    margin-top: 20px;
+  }
+}
+
+h2 {
+  font-size: 1.5em;
+
+  @media screen and (max-width: $tablet) {
+    font-size: 1.2em;
+  }
+}

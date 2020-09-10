@@ -7,11 +7,22 @@
 
   &.card-v {
     margin-bottom: 50px;
+
+    @media screen and (max-width: $tablet) {
+      margin-bottom: 20px;
+    }
   }
 
   &.card-h {
     margin-right: 50px;
     width: 360px;
+
+    @media screen and (max-width: $tablet) {
+      width: 300px;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      margin-bottom: 30px !important;
+    }
 
     &.medium {
       width: 300px;
@@ -21,5 +32,9 @@
   & b {
     display: block;
     font-size: 1.8em;
+
+    @media screen and (max-width: $tablet) {
+      font-size: 1.5em;
+    }
   }
 }

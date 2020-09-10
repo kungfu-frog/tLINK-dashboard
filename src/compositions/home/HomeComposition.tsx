@@ -8,20 +8,24 @@ import { Container, Header, Timer } from 'components';
 import { RootState } from 'types';
 import { selectAccount } from 'store/account/accountSelector';
 import { selectTotalSupply } from 'store/token/tokenSelector';
-import { numberWithDecimals, getTimeLeft } from 'utils';
+import { numberWithDecimals, getTimeLeft, inWindow } from 'utils';
+import { tokenRebase } from 'store/token/tokenActions';
+import LogoImage from 'assets/img/token-distribute.png';
 //import { web3client } from 'lib';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
   totalSupply: ReturnType<typeof selectTotalSupply>;
 }
-interface DispatchFromProps {}
+interface DispatchFromProps {
+  rebase: typeof tokenRebase;
+}
 interface OwnProps {}
 
 type Props = StateFromProps & DispatchFromProps & OwnProps;
 
-export const HomeComposition = ({ account, totalSupply }: Props) => {
-  const [rebaseEnable, setRebaseEnable] = React.useState<boolean>(false);
+export const HomeComposition = ({ account, totalSupply, rebase }: Props) => {
+  const [rebaseEnable, setRebaseEnable] = React.useState<boolean>(inWindow(Config.Token.rebase.offset, Config.Token.rebase.length));
 
   const renderTokenInfo = () => (
     <React.Fragment>
@@ -43,13 +47,14 @@ export const HomeComposition = ({ account, totalSupply }: Props) => {
     <div>
       <Header />
       <Container>
-        <div className='flex-h screen-center'>
-          <div style={{ flex: 1 }}>
+        <div className='home-container screen-center'>
+          <div className='home-timer'>
             <h1 className='center-h text-gray'>{Config.Utils.homeText}</h1>
             <Timer
               started={!Config.Token.rebase.paused}
               seconds={!Config.Token.rebase.paused ? getTimeLeft(Config.Token.rebase.offset) * 1000 : 0}
               onEnd={() => setRebaseEnable(true)}
+              onStart={() => setRebaseEnable(false)}
             />
             {Config.Token.rebase.paused ? (
               <div className='mb-10 center-h'>
@@ -57,11 +62,11 @@ export const HomeComposition = ({ account, totalSupply }: Props) => {
               </div>
             ) : null}
             <div className='center-h'>
-              <Button variant='contained' className='btn-primary' disabled={!rebaseEnable}>Rebase</Button>
+              <Button variant='contained' className='btn-primary' disabled={!rebaseEnable} onClick={rebase}>Rebase</Button>
             </div>
           </div>
-          <div className='center-h'>
-            <div className='w-300'>
+          <div className='home-info center-h'>
+            <div className='home-info__container'>
               {renderTokenInfo()}
             </div>
           </div>
@@ -80,7 +85,9 @@ function mapStateToProps(
   };
 }
 function mapDispatchToProps(dispatch: Dispatch): DispatchFromProps {
-  return {}
+  return {
+    rebase: () => dispatch(tokenRebase()),
+  }
 }
 
 export default connect(

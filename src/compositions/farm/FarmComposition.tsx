@@ -34,7 +34,7 @@ const FarmComposition = () => {
               Earn {Config.Token.symbol} tokens by providing liquidity.
             </div>
           </div>
-          <div className='center-h wp-100 mt-30'>
+          <div className='center-h wp-100 mt-30 home-container'>
             <PoolCard stakingToken={Config.StakingToken} picture='💸' poolUrl='/farm-shib' />
             <PoolCard stakingToken={Config.UniToken} picture='🌈' poolUrl='/farm-uni' />
           </div>

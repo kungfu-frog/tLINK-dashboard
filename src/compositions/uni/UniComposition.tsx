@@ -85,7 +85,7 @@ const UniComposition = ({
                 `Pool has been finished or not started yet.`}
             </div>
           </div>
-          <div className='center-h wp-100 mt-30'>
+          <div className='center-h wp-100 mt-30 home-container'>
             <DistributionAssetCard
               earned={earned}
               onHarvest={harvest}
@@ -100,7 +100,7 @@ const UniComposition = ({
               onUnstake={unstake}
             />
           </div>
-          <div className='center-h mt-30 mb-30'>
+          <div className='center-h mt-30 mb-50'>
             <Button
               variant='contained'
               className='btn-primary'

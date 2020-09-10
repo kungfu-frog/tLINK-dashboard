@@ -7,6 +7,7 @@ interface Props {
   seconds: number;
   started: boolean;
   onEnd: () => void;
+  onStart: () => void;
 }
 
 const withTimer = (timerProps: any) => (WrappedComponent: any) => (wrappedComponentProps: Props) => (
@@ -22,13 +23,19 @@ const withTimer = (timerProps: any) => (WrappedComponent: any) => (wrappedCompon
 class CustomTimer extends React.Component {
   componentDidMount() {
     const { setCheckpoints, setTime, start } = (this.props as any).timer;
-    const { onEnd, started } = (this.props as any);
+    const { onEnd, onStart, started } = (this.props as any);
 
     setCheckpoints([{
-      time: 1000,
+      time: 0,
       callback: () => {
-        setTime(started ? getTimeLeft(Config.Token.rebase.offset) * 1000 : 0);
+        setTime(started ? 86400000 : 0);
+        start();
         onEnd();
+      }
+    }, {
+      time: (86400 - Config.Token.rebase.length) * 1000,
+      callback: () => {
+        onStart();
       }
     }]);
     if (started) {

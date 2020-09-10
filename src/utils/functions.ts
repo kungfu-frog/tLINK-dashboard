@@ -1,19 +1,35 @@
 import moment from 'moment';
 
-export const numberWithDecimals = (value: number, divideDecimals: number, showDecimals?: number) => {
+export const numberWithDecimals = (value: number, divideDecimals: number, showDecimals: number, isNumber?: boolean) => {
   const _value = value / Math.pow(10, divideDecimals);
-  if (showDecimals) return _value.toFixed(showDecimals);
-  return _value;
+  const _decimals = Math.pow(10, showDecimals);
+  const _res = Math.floor(_value * _decimals) / _decimals;
+  if (!isNumber) return _res.toFixed(showDecimals);
+  return _res;
 }
 
-export const getTimeLeft = (deadlineHour: number) => {
+export const inWindow = (time: number, offsetSec: number) => {
   const now = moment.utc();
-  const deadline = now.clone().hour(deadlineHour).minute(0).second(0);
-  if (now.isAfter(deadline)) {
-    const tomorrow = moment.utc(new Date()).add(1, 'days').hour(deadlineHour).minute(0).second(0);
+  const startHour = Math.floor(time);
+  const startMin = Math.floor((time - startHour) * 60);
+  
+  const start = now.clone().hour(startHour).minute(startMin).second(0);
+  const end = start.clone().add(offsetSec, 'seconds');
+  
+  return now.isBetween(start, end);
+}
+
+export const getTimeLeft = (deadline: number) => {
+  const now = moment.utc();
+  const deadlineHour = Math.floor(deadline);
+  const deadlineMin = Math.floor((deadline - deadlineHour) * 60);
+  
+  const _deadline = now.clone().hour(deadlineHour).minute(deadlineMin).second(0);
+  if (now.isAfter(_deadline)) {
+    const tomorrow = moment.utc(new Date()).add(1, 'days').hour(deadlineHour).minute(deadlineMin).second(0);
     return tomorrow.diff(now, "seconds");
   } else {
-    return deadline.diff(now, "seconds");
+    return _deadline.diff(now, "seconds");
   }
 }
 

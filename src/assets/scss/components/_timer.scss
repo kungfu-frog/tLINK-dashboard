@@ -8,6 +8,10 @@
     border-right: 1px solid rgba(255, 255, 255, 0.5);
     color: $dark-gray;
 
+    @media screen and (max-width: $tablet) {
+      padding: 5px 10px;
+    }
+
     &:last-child {
       border-right: none;
     }
@@ -17,7 +21,7 @@
       display: block;
 
       @media screen and (max-width: $tablet) {
-        font-size: 2.5em;
+        font-size: 1.8em;
       }
     }
   }
