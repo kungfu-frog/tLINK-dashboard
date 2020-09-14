@@ -29,6 +29,7 @@ const Header: React.FC<Props> = ({ account, loadAccount }: Props) => {
         <div className="flex-h">
           <Button className='btn-text' href='/' >Home</Button>
           <Button className='btn-text' href='/farm' >Farm</Button>
+          <Button className='btn-text' href='/stats' >Stats</Button>
         </div>
         {account ? (
           <Button

@@ -10,7 +10,6 @@ import { selectAccount } from 'store/account/accountSelector';
 import { selectTotalSupply } from 'store/token/tokenSelector';
 import { numberWithDecimals, getTimeLeft, inWindow } from 'utils';
 import { tokenRebase } from 'store/token/tokenActions';
-import LogoImage from 'assets/img/token-distribute.png';
 //import { web3client } from 'lib';
 
 interface StateFromProps {

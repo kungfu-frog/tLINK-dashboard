@@ -5,7 +5,8 @@ import {
     HomeComposition,
     PoolComposition,
     UniComposition,
-    FarmComposition
+    FarmComposition,
+    StatsComposition,
 } from 'compositions';
 
 import 'assets/scss/index.scss';
@@ -19,6 +20,7 @@ class MainScreen extends Component {
                     <Route path='/farm' exact={true} component={FarmComposition} />
                     <Route path='/farm-shib' exact={true} component={PoolComposition} />
                     <Route path='/farm-uni' exact={true} component={UniComposition} />
+                    <Route path='/stats' exact={true} component={StatsComposition} />
                 </Switch>
             </Router>
         );
