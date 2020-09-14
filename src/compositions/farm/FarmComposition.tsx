@@ -7,7 +7,6 @@ import { Container, Header } from 'components';
 import { RootState } from 'types';
 import { selectAccount } from 'store/account/accountSelector';
 import PoolCard from './PoolCard';
-import LogoImage from 'assets/img/token-distribute.png';
 
 interface StateFromProps {
   account: ReturnType<typeof selectAccount>;
@@ -24,7 +23,6 @@ const FarmComposition = () => {
       <Container>
         <div className='flex-v'>
           <div className='mt-30 mb-20 center-h'>
-            <img className="logo-image large" src={LogoImage} alt={Config.Token.name} />
           </div>
           <div className='mb-20'>
             <div className='center-h text-title mb-10'>

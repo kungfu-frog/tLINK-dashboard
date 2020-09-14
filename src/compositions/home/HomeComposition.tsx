@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Card, CardContent, Typography } from '@material-ui/core';
@@ -10,6 +10,7 @@ import { selectAccount } from 'store/account/accountSelector';
 import { selectTotalSupply } from 'store/token/tokenSelector';
 import { numberWithDecimals, getTimeLeft, inWindow } from 'utils';
 import { tokenRebase } from 'store/token/tokenActions';
+import { stockclient } from 'lib';
 //import { web3client } from 'lib';
 
 interface StateFromProps {
@@ -25,7 +26,16 @@ type Props = StateFromProps & DispatchFromProps & OwnProps;
 
 export const HomeComposition = ({ account, totalSupply, rebase }: Props) => {
   const [rebaseEnable, setRebaseEnable] = React.useState<boolean>(inWindow(Config.Token.rebase.offset, Config.Token.rebase.length));
+  const [tokenPrice, setTokenPrice] = React.useState<number>(0);
+  const [rebaseTokenPrice, setRebaseTokenPrice] = React.useState<number>(0);
 
+  useEffect(() => { stockclient.getTslaPrice().then(res => setRebaseTokenPrice(res)) });
+  useEffect(() => {
+    const timeInterval = setInterval(() => {
+      stockclient.getTslaPrice().then(res => setRebaseTokenPrice(res));
+    }, 10000);
+    return () => clearInterval(timeInterval);
+  });
   const renderTokenInfo = () => (
     <React.Fragment>
       <Card className='card card-v transparent'>
@@ -49,6 +59,9 @@ export const HomeComposition = ({ account, totalSupply, rebase }: Props) => {
         <div className='home-container screen-center'>
           <div className='home-timer'>
             <h1 className='center-h text-gray'>{Config.Utils.homeText}</h1>
+            <div className='center-h text-gray'>
+              {`${Config.Token.symbol} Price is $${tokenPrice}, ${Config.TargetToken.symbol} Price is $${rebaseTokenPrice}`}
+            </div>
             <Timer
               started={!Config.Token.rebase.paused}
               seconds={!Config.Token.rebase.paused ? getTimeLeft(Config.Token.rebase.offset) * 1000 : 0}

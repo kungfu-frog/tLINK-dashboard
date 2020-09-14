@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, CardContent, Button } from '@material-ui/core';
 import Config from 'config';
 import { numberWithDecimals } from 'utils';
-import DistributeTokenImage from 'assets/img/token-distribute.png';
 
 interface OwnProps {
   earned: number;
@@ -17,7 +16,6 @@ export const DistributionAsset = ({ earned, onHarvest }: Props) => {
       <CardContent>
         <div className='section'>
           <div className='circle'>
-            <img className="logo-image" src={DistributeTokenImage} alt='LinkStepper' />
           </div>
           <div className='center-h'>
             <h2>{`${Config.Token.name} (${Config.Token.symbol})`}</h2>
